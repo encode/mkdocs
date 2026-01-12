@@ -2,8 +2,9 @@ name: Documentation
 on:
   push:
     branches:
-      - master
       - main
+  pull_request:
+    branches: ['main']
 permissions:
   contents: read
   pages: write
@@ -22,9 +23,9 @@ jobs:
           python-version: 3.x
       - run: pip install -e .
       - run: mkdocs --help
-      - run: mkdocs build
-      - uses: actions/upload-pages-artifact@v4
-        with:
-          path: site
-      - uses: actions/deploy-pages@v4
-        id: deployment
+      # - run: mkdocs build
+      # - uses: actions/upload-pages-artifact@v4
+      #   with:
+      #     path: site
+      # - uses: actions/deploy-pages@v4
+      #   id: deployment
