@@ -1,7 +1,8 @@
+import pathlib
+import tomllib
+
 import click
 import mkdocs
-
-import pathlib
 import flask
 
 
@@ -16,6 +17,55 @@ CONTENT_TYPES = {
     ".gif": "image/gif",
     ".svg": "image/svg+xml",
 }
+
+
+def default_config() -> dict:
+    return {
+        'mkdocs': {
+            'nav': [],
+        },
+        'loaders': {
+            'theme': 'pkg://mkdocs/default',
+            'docs': 'dir://',
+        },
+        'context': {
+        },
+        'markdown': {
+            'extensions': [
+                'fenced_code',
+                'footnotes',
+                'tables',
+                'toc',
+                # 'pymdownx.tasklist',
+                # 'gfm_admonition',
+                'mkdocs.extensions.rewrite_urls',
+                'mkdocs.extensions.short_codes',
+                'mkdocs.extensions.strike_thru',
+            ],
+            'configs': {
+                'footnotes': {'BACKLINK_TITLE': ''},
+                'toc': {'anchorlink': True, 'marker': ''}
+            },
+        },
+        # 'commands': {
+        #     'build': 'mkdocs:build',
+        #     'serve': 'mkdocs:serve',
+        # }
+    }
+
+
+def load_config(path: pathlib.Path) -> dict:
+    # Read the mkdocs.toml
+    text = path.read_text()
+    config = tomllib.loads(text)
+
+    # Merge the default config.
+    default = default_config()
+    for key, value in default.items():
+        if key not in config:
+            config[key] = value
+
+    return config
 
 
 def build(mk: mkdocs.MkDocs) -> None:
@@ -53,7 +103,13 @@ def serve(mk: mkdocs.MkDocs) -> None:
 
 
 def cli():
-    mk = mkdocs.MkDocs()
+    path = pathlib.Path('mkdocs.toml')
+    if path.exists():
+        config = load_config(path)
+    else:
+        config = default_config()
+
+    mk = mkdocs.MkDocs(config)
     group = click.Group(commands=[
         click.Command(name='build', callback=lambda: build(mk)),
         click.Command(name='serve', callback=lambda: serve(mk)),

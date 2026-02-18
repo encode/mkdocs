@@ -14,32 +14,6 @@ from urllib.parse import urlparse
 from .extensions.rewrite_urls import PageContext
 
 
-# Config...
-
-class Config:
-    def __init__(self, config: dict, filename: str) -> None:
-        self._config = config
-        self._filename = filename
-
-    def get(self, *args: str):
-        value = self._config
-        for arg in args:
-            if not isinstance(value, dict) or arg not in value:
-                return None
-            value = value[arg]
-        return value
-
-    def __getitem__(self, key: str) -> typing.Any:
-        return self._config[key]
-
-    def __repr__(self):
-        return f'<Config {self._filename!r}>'
-
-
-class ConfigError(Exception):
-    pass
-
-
 class Page:
     def __init__(self, text: str, html: str, toc: str, title: str, url: str, path: str):
         self.text = text  # The markdown text
@@ -244,13 +218,13 @@ class TemplateLoader(jinja2.BaseLoader):
 # Here we go...
 
 class MkDocs:
-    def __init__(self):
+    def __init__(self, config: dict) -> None:
         self.loaders = {
             'https': ZipURL,
             'pkg': Package,
             'dir': Directory,
         }
-        self.config = self.load_config('mkdocs.toml')
+        self.config = config
         self.handlers = self.load_handlers(self.config)
         self.resources, self.templates = self.load_resources(self.handlers)
         self.env = self.load_env(self.templates)
@@ -271,52 +245,6 @@ class MkDocs:
             return pathlib.Path('/').joinpath(path).with_suffix('').as_posix().lower() + '/'
         # 'css/styles.css' -> '/css/styles.css'
         return pathlib.Path('/').joinpath(path).as_posix()
-
-    def load_config(self, filename: str) -> dict:
-        path = pathlib.Path(filename)
-        if not path.exists():
-            print("* No 'config.toml' file, using defaults.")
-            config = {}
-            # raise ConfigError(f"Missing config '{filename}'")
-        else:
-            text = path.read_text()
-            try:
-                config = tomllib.loads(text)
-            except tomllib.TOMLDecodeError as exc:
-                raise ConfigError(f"Invalid TOML in config '{filename}'\n{exc}")
-
-        default = {
-            'mkdocs': {
-                'nav': [],
-            },
-            'loaders': {
-                'theme': 'pkg://mkdocs/default',
-                'docs': 'dir://',
-            },
-            'context': {
-            },
-            'markdown': {
-                'extensions': [
-                    'fenced_code',
-                    'footnotes',
-                    'tables',
-                    'toc',
-                    # 'pymdownx.tasklist',
-                    # 'gfm_admonition',
-                    'mkdocs.extensions.rewrite_urls',
-                    'mkdocs.extensions.short_codes',
-                    'mkdocs.extensions.strike_thru',
-                ],
-                'configs': {
-                    'footnotes': {'BACKLINK_TITLE': ''},
-                    'toc': {'anchorlink': True, 'marker': ''}
-                },
-            },
-        }
-        for key, value in default.items():
-            if key not in config:
-                config[key] = value
-        return Config(config, filename=filename)
 
     def load_handlers(self, config: dict) -> list[Handler]:
         loaders_config = config['loaders']

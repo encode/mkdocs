@@ -1,4 +1,4 @@
 from .mkdocs import MkDocs
-from .cli import cli
+from .cli import cli, build, serve
 
-__all__ = [MkDocs, cli]
+__all__ = [MkDocs, cli, build, serve]
