@@ -2,6 +2,8 @@
 
 MkDocs is a smart, simple, website design tool.
 
+![MkDocs](img/mkdocs.png)
+
 ## Installation
 
 Install the `mkdocs` command line tool...
