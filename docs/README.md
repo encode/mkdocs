@@ -1,7 +1,3 @@
-<style>
-h2 { margin-top: 50px}
-</style>
-
 # MkDocs
 
 MkDocs is a smart, simple, website design tool.
