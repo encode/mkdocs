@@ -1,3 +1,10 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{ page.title }}</title>
+        <link rel="icon" href="data:image/svg+xml,&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 100 100&quot;&gt;&lt;text y=&quot;.9em&quot; font-size=&quot;90&quot;&gt;📘&lt;/text&gt;&lt;/svg&gt;">
+        <style>
 /* Color scheme */
 
 :root {
@@ -108,6 +115,16 @@ blockquote {
 pre {
     padding: 1rem;
     overflow-x: scroll;
+    background-color:  var(--code-bg-color);
+}
+
+code {
+    padding: 0 5px;
+    background-color: var(--code-bg-color);
+}
+
+pre code {
+    padding: 0;
 }
 
 img {
@@ -146,3 +163,11 @@ a.toclink:hover::after {
     margin: 0 0.8rem;
     color: var(--neutral-color);
 }
+        </style>
+    </head>
+    <body>
+        <main>
+            {{ page.html }}
+        </main>
+    </body>
+</html>

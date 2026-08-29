@@ -52,6 +52,12 @@ class Page:
         self.url = str(url).removesuffix('index.html')
 
 
+class PageAsHTML:
+    def __init__(self, title, html):
+        self.title = title
+        self.html = html
+
+
 class Static:
     def __init__(self, path):
         self.path = path
@@ -125,7 +131,7 @@ class MkDocs:
         dir = pathlib.Path(input_dir)
         loader = jinja2.ChoiceLoader([
             jinja2.FileSystemLoader(dir.joinpath("templates")),
-            jinja2.PackageLoader('mkdocs', 'default'),
+            jinja2.PackageLoader('mkdocs', 'theme'),
         ])
         env = jinja2.Environment(loader=loader, auto_reload=True)
         env.filters['url'] = url
@@ -134,7 +140,6 @@ class MkDocs:
     def init_md(self) -> markdown.Markdown:
         return markdown.Markdown(
             extensions=[
-                'codehilite',
                 'fenced_code',
                 'footnotes',
                 'tables',
@@ -174,7 +179,8 @@ class MkDocs:
             with self.set_context(page):
                 text = input_path.read_text()
                 html = self.md.reset().convert(text)
-                output = self.base.render(page=page, html=html)
+                title = self.md.toc_tokens[0]['name'] if self.md.toc_tokens else ''
+                output = self.base.render(page=PageAsHTML(title=title, html=html))
 
             output_path.parent.mkdir(parents=True, exist_ok=True)
             output_path.write_text(output)
@@ -205,7 +211,8 @@ class MkDocs:
                 with self.set_context(resource):
                     text = input_path.read_text()
                     html = self.md.reset().convert(text)
-                    output = self.base.render(page=resource, html=html)
+                    title = self.md.toc_tokens[0]['name'] if self.md.toc_tokens else ''
+                    output = self.base.render(page=PageAsHTML(title=title, html=html))
                 return httpx.Response(200, content=httpx.HTML(output))
             elif isinstance(resource, Static):
                 input_path = input_dir.joinpath(resource.path)
@@ -218,7 +225,8 @@ class MkDocs:
 
 @click.group()
 def cli():
-    pass
+    if pathlib.Path('mkdocs.yml').exists():
+        raise Exception('Found mkdocs.yml config, but mkdocs 2.0 pre-release is installed')
 
 
 @cli.command()

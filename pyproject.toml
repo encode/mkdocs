@@ -26,7 +26,6 @@ dependencies = [
     "click",
     "jinja2",
     "markdown",
-    "pygments",
 ]
 dynamic = ["version"]
 
