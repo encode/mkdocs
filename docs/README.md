@@ -9,7 +9,7 @@ MkDocs is a smart, simple, website design tool.
 Getting started is easy...
 
 ```shell
-$ uv add mkdocs --pre
+$ pip install mkdocs --pre
 ```
 
 *This will install the version 2.0 pre-release.*
