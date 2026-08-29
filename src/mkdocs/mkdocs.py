@@ -53,7 +53,9 @@ class Page:
 
 
 class PageAsHTML:
-    def __init__(self, title, html):
+    def __init__(self, page, title, html):
+        self.path = page.path
+        self.url = page.url
         self.title = title
         self.html = html
 
@@ -180,7 +182,8 @@ class MkDocs:
                 text = input_path.read_text()
                 html = self.md.reset().convert(text)
                 title = self.md.toc_tokens[0]['name'] if self.md.toc_tokens else ''
-                output = self.base.render(page=PageAsHTML(title=title, html=html))
+                rendered_page = PageAsHTML(page=page, title=title, html=html)
+                output = self.base.render(page=rendered_page)
 
             output_path.parent.mkdir(parents=True, exist_ok=True)
             output_path.write_text(output)
@@ -212,7 +215,8 @@ class MkDocs:
                     text = input_path.read_text()
                     html = self.md.reset().convert(text)
                     title = self.md.toc_tokens[0]['name'] if self.md.toc_tokens else ''
-                    output = self.base.render(page=PageAsHTML(title=title, html=html))
+                    rendered_page = PageAsHTML(page=page, title=title, html=html)
+                    output = self.base.render(page=rendered_page)
                 return httpx.Response(200, content=httpx.HTML(output))
             elif isinstance(resource, Static):
                 input_path = input_dir.joinpath(resource.path)
