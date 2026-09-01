@@ -210,9 +210,11 @@ nav.toc li a:hover {
         </style>
     </head>
     <body>
+        {% if page.toc %}
         <nav class="toc">
             {{ page.toc }}
         </nav>
+        {% endif %}
         <main>
             {{ page.html }}
         </main>
