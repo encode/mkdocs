@@ -35,24 +35,26 @@
 /* Layout... */
 
 main {
-    margin-left: 20%;
+    margin: 0 auto;
+    max-width: 700px;
     width: 60%;
-    padding: 1rem;
+    padding: 1rem 0;
 }
 
 @media (max-width: 1000px) {
     main {
-        padding: 1.5rem 1rem;
         width: 75%;
-        margin-left: 25%;
+    }
+
+    nav {
+        display: none;
     }
 }
 
-@media (max-width: 800px) {
+@media (max-width: 600px) {
     main {
-        padding: 1.5rem 1rem;
         width: 100%;
-        margin-left: 0;
+        padding: 1rem 1.5rem;
     }
 }
 
@@ -163,9 +165,58 @@ a.toclink:hover::after {
     margin: 0 0.8rem;
     color: var(--neutral-color);
 }
+
+/* ... */
+
+nav {
+    position: fixed;
+    margin-left: 80%;
+    width : 20%;
+    padding: 2rem;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+/* Navigation styling */
+
+nav ul {
+    padding: 0;
+    margin: 0;
+}
+
+nav li {
+    padding: 0;
+    margin: 0.5rem 0;
+    display: block;
+}
+
+nav li a {
+    color: var(--muted-fg-color);
+}
+
+nav li a.active {
+    color: var(--link-color);
+}
+
+nav li a:hover {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+nav.right li a {
+    color: var(--muted-fg-color);
+}
+
+nav.right li a:hover {
+    color: var(--fg-color);
+    text-decoration: none;
+}
         </style>
     </head>
     <body>
+        <nav class="toc">
+            {{ page.toc }}
+        </nav>
         <main>
             {{ page.html }}
         </main>
