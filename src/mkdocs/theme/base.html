@@ -166,9 +166,9 @@ a.toclink:hover::after {
     color: var(--neutral-color);
 }
 
-/* ... */
+/* Table of contents styling */
 
-nav {
+nav.toc {
     position: fixed;
     margin-left: 80%;
     width : 20%;
@@ -179,35 +179,31 @@ nav {
 
 /* Navigation styling */
 
-nav ul {
+nav.toc ul {
     padding: 0;
     margin: 0;
 }
 
-nav li {
+nav.toc li {
     padding: 0;
     margin: 0.5rem 0;
     display: block;
 }
 
-nav li a {
-    color: var(--muted-fg-color);
-}
-
-nav li a.active {
+nav.toc li a.active {
     color: var(--link-color);
 }
 
-nav li a:hover {
+nav.toc li a:hover {
     color: var(--link-color);
     text-decoration: none;
 }
 
-nav.right li a {
+nav.toc li a {
     color: var(--muted-fg-color);
 }
 
-nav.right li a:hover {
+nav.toc li a:hover {
     color: var(--fg-color);
     text-decoration: none;
 }
