@@ -216,7 +216,7 @@ class MkDocs:
                     text = input_path.read_text()
                     html = self.md.reset().convert(text)
                     title = self.md.toc_tokens[0]['name'] if self.md.toc_tokens else ''
-                    page_ctx = PageContext(page=page, title=title, html=html, toc=self.md.toc)
+                    page_ctx = PageContext(page=resource, title=title, html=html, toc=self.md.toc)
                     output = self.base.render(page=page_ctx)
                 return httpx.Response(200, content=httpx.HTML(output))
             elif isinstance(resource, Static):
