@@ -38,7 +38,7 @@ A starting point can be as simple as...
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{{ page.title }}</title>
+        <title>{{ page.toc.title }}</title>
         <link rel="stylesheet" href="{{ '/css/default.css' | url }}">
     </head>
     <body>

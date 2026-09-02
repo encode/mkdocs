@@ -30,7 +30,7 @@ def get_current_page():
     return ctx
 
 
-def get_site_index():
+def get_site():
     ctx = _site_index.get()
     if ctx is None:
         raise RuntimeError("No current context")
@@ -52,14 +52,6 @@ class Page:
         self.url = str(url).removesuffix('index.html')
 
 
-class PageAsHTML:
-    def __init__(self, page, title, html):
-        self.path = page.path
-        self.url = page.url
-        self.title = title
-        self.html = html
-
-
 class Static:
     def __init__(self, path):
         self.path = path
@@ -67,7 +59,7 @@ class Static:
         self.url = str(url).removesuffix('index.html')
 
 
-class SiteIndex:
+class Site:
     def __init__(self, pages, statics):
         self._pages = pages
         self._statics = statics
@@ -89,6 +81,31 @@ class SiteIndex:
 
     def __len__(self) -> int:
         return len(self.pages) + len(self.statics)
+
+
+class TableOfContents:
+    def __init__(self, md):
+        self.html = md.toc
+        self.title = md.toc_tokens[0]['name'] if md.toc_tokens else ''
+        self._items = list(md.toc_tokens)
+
+    def __bool__(self):
+        return bool(self._items)
+
+
+class PageContext:
+    def __init__(self, page, text, html, toc):
+        self.path = page.path
+        self.url = page.url
+        self.text = text
+        self.html = html
+        self.toc = toc
+
+    # Leaving this here for compatability with... `{{ page.title }}`
+    # TODO.... probably deprecate, but follow through with toc design discussion.
+    @property
+    def title(self):
+        return self.toc.title
 
 
 class MkDocs:
@@ -121,7 +138,7 @@ class MkDocs:
 
         pages = sorted(pages, key=lambda x: x.url)
         statics = sorted(statics, key=lambda x: x.url)
-        return SiteIndex(pages, statics)
+        return Site(pages, statics)
 
     def init_env(self, input_dir) -> jinja2.Environment:
         @jinja2.pass_context
@@ -154,7 +171,7 @@ class MkDocs:
             ],
             extension_configs={
                 'footnotes': {'BACKLINK_TITLE': ''},
-                'toc': {'anchorlink': True, 'marker': ''}
+                'toc': {'anchorlink': True, 'marker': '', 'toc_class': ''}
             }
         )
 
@@ -181,9 +198,9 @@ class MkDocs:
             with self.set_context(page):
                 text = input_path.read_text()
                 html = self.md.reset().convert(text)
-                title = self.md.toc_tokens[0]['name'] if self.md.toc_tokens else ''
-                rendered_page = PageAsHTML(page=page, title=title, html=html)
-                output = self.base.render(page=rendered_page)
+                toc = TableOfContents(self.md)
+                page_ctx = PageContext(page=page, text=text, html=html, toc=toc)
+                output = self.base.render(page=page_ctx)
 
             output_path.parent.mkdir(parents=True, exist_ok=True)
             output_path.write_text(output)
@@ -214,9 +231,9 @@ class MkDocs:
                 with self.set_context(resource):
                     text = input_path.read_text()
                     html = self.md.reset().convert(text)
-                    title = self.md.toc_tokens[0]['name'] if self.md.toc_tokens else ''
-                    rendered_page = PageAsHTML(page=page, title=title, html=html)
-                    output = self.base.render(page=rendered_page)
+                    toc = TableOfContents(self.md)
+                    page_ctx = PageContext(page=resource, text=text, html=html, toc=toc)
+                    output = self.base.render(page=page_ctx)
                 return httpx.Response(200, content=httpx.HTML(output))
             elif isinstance(resource, Static):
                 input_path = input_dir.joinpath(resource.path)
