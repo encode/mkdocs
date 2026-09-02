@@ -8,7 +8,7 @@ import httpx
 class URLProcessor(markdown.treeprocessors.Treeprocessor):
     def run(self, root):
         page = mkdocs.get_current_page()
-        site_index = mkdocs.get_site_index()
+        site = mkdocs.get_site()
         key = ''
         link = ''
 
@@ -34,7 +34,7 @@ class URLProcessor(markdown.treeprocessors.Treeprocessor):
                     path_from = page.path
                     path_to = os.path.normpath(path_from.parent.joinpath(url.path))
 
-                    target = site_index.lookup.get(path_to)
+                    target = site.lookup.get(path_to)
                     if target is None:
                         continue  # Broken link!
 
