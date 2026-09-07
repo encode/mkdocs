@@ -34,7 +34,7 @@ class URLProcessor(markdown.treeprocessors.Treeprocessor):
                     path_from = page.path
                     path_to = os.path.normpath(path_from.parent.joinpath(url.path))
 
-                    target = site.lookup.get(path_to)
+                    target = site.lookup_by_path(path_to)
                     if target is None:
                         continue  # Broken link!
 
