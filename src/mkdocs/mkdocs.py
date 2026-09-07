@@ -93,6 +93,20 @@ class TableOfContents:
         return bool(self._items)
 
 
+class NavItem:
+    def __init__(self, title, page: Page):
+        self.title = title
+        self.page = Page
+
+
+class Navigation:
+    def __init__(self, nav_items):
+        self._items = nav_items
+
+    def __iter__(self):
+        return iter(self._items)
+
+
 class PageContext:
     def __init__(self, page, text, html, toc):
         self.path = page.path
@@ -111,6 +125,7 @@ class PageContext:
 class MkDocs:
     def __init__(self, input_dir):
         self.site_index = self.load_site(input_dir)
+        self.nav = self.load_nav({}, self.site_index)
         self.env = self.init_env(input_dir)
         self.md = self.init_md()
         self.base = self.env.get_template('base.html')
@@ -139,6 +154,22 @@ class MkDocs:
         pages = sorted(pages, key=lambda x: x.url)
         statics = sorted(statics, key=lambda x: x.url)
         return Site(pages, statics)
+
+    def load_nav(self, config, site):
+        nav_config = config.get('nav', [])
+        nav_config = nav_config if isinstance(nav_config, list) else []
+        nav_items = []
+        for item in nav_config:
+            if not isinstance(item, dict):
+                continue
+            path = item.get('path', None)
+            if not path:
+                continue
+            if path:
+                page = site.lookup.get(path)
+            nav_item = NavItem(page)
+            nav_items.append(nav_item)
+        return Navigation(nav_items)
 
     def init_env(self, input_dir) -> jinja2.Environment:
         @jinja2.pass_context
