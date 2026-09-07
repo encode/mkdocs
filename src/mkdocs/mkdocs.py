@@ -20,7 +20,7 @@ RESET = '\033[0m'
 # The build context is used to ensure the current page and the site index
 # are available to the RelativeURLs markdown extension.
 _current_page = contextvars.ContextVar('current_page')
-_site_index = contextvars.ContextVar('site_index')
+_site = contextvars.ContextVar('site')
 
 
 def get_current_page():
@@ -31,7 +31,7 @@ def get_current_page():
 
 
 def get_site():
-    ctx = _site_index.get()
+    ctx = _site.get()
     if ctx is None:
         raise RuntimeError("No current context")
     return ctx
@@ -64,12 +64,18 @@ class Site:
         self._pages = pages
         self._statics = statics
 
-        self.lookup = {
+        self._paths = {
             str(resource.path): resource for resource in pages + statics
         }
-        self.lookup_by_url = {
+        self._urls = {
             str(resource.url): resource for resource in pages + statics
         }
+
+    def lookup_by_path(self, path) -> Page | Static | None:
+        return self._paths.get(path)
+
+    def lookup_by_url(self, url) -> Page | Static | None:
+        return self._urls.get(url)
 
     @property
     def pages(self) -> list[Page]:
@@ -110,7 +116,7 @@ class PageContext:
 
 class MkDocs:
     def __init__(self, input_dir):
-        self.site_index = self.load_site(input_dir)
+        self.site = self.load_site(input_dir)
         self.env = self.init_env(input_dir)
         self.md = self.init_md()
         self.base = self.env.get_template('base.html')
@@ -178,19 +184,19 @@ class MkDocs:
     @contextlib.contextmanager
     def set_context(self, current_page):
         token_page = _current_page.set(current_page)
-        token_site = _site_index.set(self.site_index)
+        token_site = _site.set(self.site)
         try:
             yield
         finally:
             _current_page.reset(token_page)
-            _site_index.reset(token_site)
+            _site.reset(token_site)
 
     def build(self, input, output):
         input_dir = pathlib.Path(input)
         output_dir = pathlib.Path(output)
 
-        print(DARK_GRAY + "Collected %d resources" % len(self.site_index) + RESET)
-        for page in self.site_index.pages:
+        print(DARK_GRAY + "Collected %d resources" % len(self.site) + RESET)
+        for page in self.site.pages:
             print(GREEN + " + " + RESET + BOLD + str(page.path) + RESET + DARK_GRAY + " [markdown]" + RESET)
             input_path = input_dir.joinpath(page.path)
             output_path = output_dir.joinpath(page.build_path)
@@ -205,7 +211,7 @@ class MkDocs:
             output_path.parent.mkdir(parents=True, exist_ok=True)
             output_path.write_text(output)
 
-        for static in self.site_index.statics:
+        for static in self.site.statics:
             print(GREEN + " + " + RESET + BOLD + str(static.path) + RESET + DARK_GRAY + " [static]" + RESET)
             input_path = input_dir.joinpath(static.path)
             output_path = output_dir.joinpath(static.path)
@@ -216,15 +222,15 @@ class MkDocs:
     def serve(self, input):
         input_dir = pathlib.Path(input)
 
-        print(DARK_GRAY + "Serving %d resources" % len(self.site_index) + RESET)
-        for page in self.site_index.pages:
+        print(DARK_GRAY + "Serving %d resources" % len(self.site) + RESET)
+        for page in self.site.pages:
             print(GREEN + " + " + RESET + BOLD + str(page.url) + RESET + DARK_GRAY + " [markdown]" + RESET)
-        for static in self.site_index.statics:
+        for static in self.site.statics:
             print(GREEN + " + " + RESET + BOLD + str(static.url) + RESET + DARK_GRAY + " [static]" + RESET)
         print()
 
         def app(request):
-            resource = self.site_index.lookup_by_url.get(request.url.path)
+            resource = self.site.lookup_by_url(request.url.path)
 
             if isinstance(resource, Page):
                 input_path = input_dir.joinpath(resource.path)
