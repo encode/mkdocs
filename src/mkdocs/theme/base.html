@@ -43,18 +43,32 @@ main {
 
 @media (max-width: 1000px) {
     main {
+        margin-left: 20%;
         width: 75%;
     }
 
     nav.toc {
         display: none;
     }
+
+    nav.site {
+        width: 25%;
+    }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 750px) {
     main {
+        margin-left: 0;
         width: 100%;
         padding: 1rem 1.5rem;
+    }
+
+    nav.toc {
+        display: none;
+    }
+
+    nav.site {
+        display: none;
     }
 }
 
