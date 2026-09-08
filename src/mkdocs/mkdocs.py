@@ -114,8 +114,9 @@ class Navigation:
 
     @property
     def html(self):
-        t = jinja2.Template("""<ul>{% for item in nav %}<li><a href="{{ item.page.url }}">{{ item.title }}</a></li>{% endfor %}</ul>""")
-        return t.render({"nav": self})
+        page = get_current_page()
+        t = jinja2.Template("""<ul>{% for item in nav %}<li><a href="{{ item.page.url }}"  {% if item.page == page %}class="active"{% endif %}>{{ item.title }}</a></li>{% endfor %}</ul>""")
+        return t.render({"nav": self, "page": page})
 
 
 class PageContext:
