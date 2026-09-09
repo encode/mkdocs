@@ -22,7 +22,7 @@ classifiers = [
     "Topic :: Internet :: WWW/HTTP",
 ]
 dependencies = [
-    "httpx>=1.0.dev5",
+    "httpx>=1.0.dev6",
     "click",
     "jinja2",
     "markdown",
