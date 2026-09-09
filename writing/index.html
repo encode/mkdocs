@@ -2,63 +2,268 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Writing Markdown - MkDocs</title>
+        <title>...</title>
         <link rel="icon" href="data:image/svg+xml,&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 100 100&quot;&gt;&lt;text y=&quot;.9em&quot; font-size=&quot;90&quot;&gt;📘&lt;/text&gt;&lt;/svg&gt;">
-        <link rel="stylesheet" href="../css/highlightjs.min.css">
-        <link rel="stylesheet" href="../css/highlightjs-copy.min.css">
-        <link rel="stylesheet" href="../css/theme.css">
-        <script src="../js/highlightjs.min.js"></script>
-        <script src="../js/highlightjs-copy.min.js"></script>
-        <script src="../js/theme.js"></script>
+        <style>
+            /* Color scheme */
+
+:root {
+    --fg-color: #f0f6fc;
+    --muted-fg-color: #9198a1;
+    --neutral-color: #3d444d;
+    --bg-color: #151b23;
+
+    --link-color: #4493f8;
+    --code-bg-color: #0d1117;
+
+    --accent-note: #0969da;
+    --accent-tip: #1a7f37;
+    --accent-important:#8250df;
+    --accent-warning: #9a6700;
+    --accent-caution: #d1242f;
+}
+
+/* Basic reset */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-weight: 300;
+}
+
+/* Layout... */
+
+main {
+    margin-left: 20%;
+    width: 60%;
+    padding: 1rem;
+}
+
+@media (max-width: 1000px) {
+    main {
+        padding: 1.5rem 1rem;
+        width: 75%;
+        margin-left: 25%;
+    }
+}
+
+@media (max-width: 800px) {
+    main {
+        padding: 1.5rem 1rem;
+        width: 100%;
+        margin-left: 0;
+    }
+}
+
+/* Typography & spacing */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    line-height: 1.6;
+    color: var(--fg-color);
+    background-color: var(--bg-color);
+    font-family: Helvetica, sans-serif;
+}
+
+h1, h2, h3, h4, h5 {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
+}
+
+h1 {
+    border-bottom: 1px solid var(--neutral-color);
+}
+h2 {
+    border-bottom: 1px solid var(--neutral-color);
+}
+/* h3 { font-size: 1.25rem; }
+h4 { font-size: 1rem; } */
+
+p {
+    margin: 1rem 0;
+}
+
+strong {
+    font-weight: 600;
+}
+
+ul, ol {
+    padding-left: 2rem;
+}
+
+li {
+    margin: 0.5rem 0;
+}
+
+hr {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: none;
+    border-top: 4px solid;
+    color: var(--neutral-color);
+}
+
+blockquote {
+    border-left: 0.25rem solid var(--neutral-color);
+    padding: 0 1rem;
+    color: var(--muted-fg-color);
+}
+
+pre {
+    padding: 1rem;
+}
+
+img {
+    max-width: 100%
+}
+
+h1 a {
+    color: inherit;
+}
+
+h1 a:hover {
+    text-decoration: none;
+}
+
+a {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Tables */
+
+table {
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 6px 13px;
+    border: 1px solid var(--neutral-color);
+}
+
+/* Header anchor links */
+
+a.toclink {
+    color: inherit;
+    text-decoration: none;
+}
+
+a.toclink:hover::after {
+    content: "#";
+    margin: 0 0.8rem;
+    color: var(--neutral-color);
+}
+            pre { line-height: 125%; }
+td.linenos .normal { color: #6e7681; background-color: #0d1117; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #6e7681; background-color: #0d1117; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #e6edf3; background-color: #6e7681; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #e6edf3; background-color: #6e7681; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #6e7681 }
+.codehilite { background: #0d1117; color: #E6EDF3 }
+.codehilite .c { color: #8B949E; font-style: italic } /* Comment */
+.codehilite .err { color: #F85149 } /* Error */
+.codehilite .esc { color: #E6EDF3 } /* Escape */
+.codehilite .g { color: #E6EDF3 } /* Generic */
+.codehilite .k { color: #FF7B72 } /* Keyword */
+.codehilite .l { color: #A5D6FF } /* Literal */
+.codehilite .n { color: #E6EDF3 } /* Name */
+.codehilite .o { color: #FF7B72; font-weight: bold } /* Operator */
+.codehilite .x { color: #E6EDF3 } /* Other */
+.codehilite .p { color: #E6EDF3 } /* Punctuation */
+.codehilite .ch { color: #8B949E; font-style: italic } /* Comment.Hashbang */
+.codehilite .cm { color: #8B949E; font-style: italic } /* Comment.Multiline */
+.codehilite .cp { color: #8B949E; font-weight: bold; font-style: italic } /* Comment.Preproc */
+.codehilite .cpf { color: #8B949E; font-style: italic } /* Comment.PreprocFile */
+.codehilite .c1 { color: #8B949E; font-style: italic } /* Comment.Single */
+.codehilite .cs { color: #8B949E; font-weight: bold; font-style: italic } /* Comment.Special */
+.codehilite .gd { color: #FFA198; background-color: #490202 } /* Generic.Deleted */
+.codehilite .ge { color: #E6EDF3; font-style: italic } /* Generic.Emph */
+.codehilite .ges { color: #E6EDF3; font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.codehilite .gr { color: #FFA198 } /* Generic.Error */
+.codehilite .gh { color: #79C0FF; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #56D364; background-color: #0F5323 } /* Generic.Inserted */
+.codehilite .go { color: #8B949E } /* Generic.Output */
+.codehilite .gp { color: #8B949E } /* Generic.Prompt */
+.codehilite .gs { color: #E6EDF3; font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #79C0FF } /* Generic.Subheading */
+.codehilite .gt { color: #FF7B72 } /* Generic.Traceback */
+.codehilite .g-Underline { color: #E6EDF3; text-decoration: underline } /* Generic.Underline */
+.codehilite .kc { color: #79C0FF } /* Keyword.Constant */
+.codehilite .kd { color: #FF7B72 } /* Keyword.Declaration */
+.codehilite .kn { color: #FF7B72 } /* Keyword.Namespace */
+.codehilite .kp { color: #79C0FF } /* Keyword.Pseudo */
+.codehilite .kr { color: #FF7B72 } /* Keyword.Reserved */
+.codehilite .kt { color: #FF7B72 } /* Keyword.Type */
+.codehilite .ld { color: #79C0FF } /* Literal.Date */
+.codehilite .m { color: #A5D6FF } /* Literal.Number */
+.codehilite .s { color: #A5D6FF } /* Literal.String */
+.codehilite .na { color: #E6EDF3 } /* Name.Attribute */
+.codehilite .nb { color: #E6EDF3 } /* Name.Builtin */
+.codehilite .nc { color: #F0883E; font-weight: bold } /* Name.Class */
+.codehilite .no { color: #79C0FF; font-weight: bold } /* Name.Constant */
+.codehilite .nd { color: #D2A8FF; font-weight: bold } /* Name.Decorator */
+.codehilite .ni { color: #FFA657 } /* Name.Entity */
+.codehilite .ne { color: #F0883E; font-weight: bold } /* Name.Exception */
+.codehilite .nf { color: #D2A8FF; font-weight: bold } /* Name.Function */
+.codehilite .nl { color: #79C0FF; font-weight: bold } /* Name.Label */
+.codehilite .nn { color: #FF7B72 } /* Name.Namespace */
+.codehilite .nx { color: #E6EDF3 } /* Name.Other */
+.codehilite .py { color: #79C0FF } /* Name.Property */
+.codehilite .nt { color: #7EE787 } /* Name.Tag */
+.codehilite .nv { color: #79C0FF } /* Name.Variable */
+.codehilite .ow { color: #FF7B72; font-weight: bold } /* Operator.Word */
+.codehilite .pm { color: #E6EDF3 } /* Punctuation.Marker */
+.codehilite .w { color: #6E7681 } /* Text.Whitespace */
+.codehilite .mb { color: #A5D6FF } /* Literal.Number.Bin */
+.codehilite .mf { color: #A5D6FF } /* Literal.Number.Float */
+.codehilite .mh { color: #A5D6FF } /* Literal.Number.Hex */
+.codehilite .mi { color: #A5D6FF } /* Literal.Number.Integer */
+.codehilite .mo { color: #A5D6FF } /* Literal.Number.Oct */
+.codehilite .sa { color: #79C0FF } /* Literal.String.Affix */
+.codehilite .sb { color: #A5D6FF } /* Literal.String.Backtick */
+.codehilite .sc { color: #A5D6FF } /* Literal.String.Char */
+.codehilite .dl { color: #79C0FF } /* Literal.String.Delimiter */
+.codehilite .sd { color: #A5D6FF } /* Literal.String.Doc */
+.codehilite .s2 { color: #A5D6FF } /* Literal.String.Double */
+.codehilite .se { color: #79C0FF } /* Literal.String.Escape */
+.codehilite .sh { color: #79C0FF } /* Literal.String.Heredoc */
+.codehilite .si { color: #A5D6FF } /* Literal.String.Interpol */
+.codehilite .sx { color: #A5D6FF } /* Literal.String.Other */
+.codehilite .sr { color: #79C0FF } /* Literal.String.Regex */
+.codehilite .s1 { color: #A5D6FF } /* Literal.String.Single */
+.codehilite .ss { color: #A5D6FF } /* Literal.String.Symbol */
+.codehilite .bp { color: #E6EDF3 } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #D2A8FF; font-weight: bold } /* Name.Function.Magic */
+.codehilite .vc { color: #79C0FF } /* Name.Variable.Class */
+.codehilite .vg { color: #79C0FF } /* Name.Variable.Global */
+.codehilite .vi { color: #79C0FF } /* Name.Variable.Instance */
+.codehilite .vm { color: #79C0FF } /* Name.Variable.Magic */
+.codehilite .il { color: #A5D6FF } /* Literal.Number.Integer.Long */
+        </style>
     </head>
     <body>
-        <nav class="left">
-            <ul>
-<li><a href="../">Introduction</a></li>
-<li><a class="active" href=".">Writing Markdown</a></li>
-<li><a href="../navigation/">Interlinking &amp; Navigation</a></li>
-<li><a href="../styling/">Themes &amp; Styling</a></li>
-</ul>
-        </nav>
-        <nav class="right">
-            <div class="toc">
-<ul>
-<li><a href="#writing-markdown">Writing Markdown</a><ul>
-<li><a href="#headings">Headings</a></li>
-<li><a href="#formatting">Formatting</a></li>
-<li><a href="#lists">Lists</a></li>
-<li><a href="#ordered-lists">Ordered Lists</a></li>
-<li><a href="#links">Links</a></li>
-<li><a href="#section-links">Section links</a></li>
-<li><a href="#relative-links">Relative Links</a></li>
-<li><a href="#images">Images</a></li>
-<li><a href="#inline-code">Inline Code</a></li>
-<li><a href="#code-block">Code Block</a></li>
-<li><a href="#horizontal-rule">Horizontal Rule</a></li>
-<li><a href="#table">Table</a></li>
-<li><a href="#footnotes">Footnotes</a></li>
-<li><a href="#blockquote">Blockquote</a></li>
-<li><a href="#alerts">Alerts</a></li>
-<li><a href="#emoji">Emoji</a></li>
-<li><a href="#task-list">Task List</a></li>
-</ul>
-</li>
-</ul>
-</div>
-
-        </nav>
         <main>
             <h1 id="writing-markdown"><a class="toclink" href="#writing-markdown">Writing Markdown</a></h1>
 <p>MkDocs supports regular Markdown syntax with some Github Flavored Markdown extensions.</p>
 <p>For other references on writing in Markdown, see the <a href="https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax">GitHub documentation</a>, the <a href="https://www.markdownguide.org/">Markdown Guide</a>, or the author's <a href="https://daringfireball.net/projects/markdown/">original documentation</a>.</p>
 <p>The rest of this page provides a reference guide to the supported markdown syntax.</p>
 <h2 id="headings"><a class="toclink" href="#headings">Headings</a></h2>
-<pre><code class="language-markdown"># H1
-## H2
-### H3
-#### H4
-##### H5
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="gh"># H1</span>
+<span class="gu">## H2</span>
+<span class="gu">### H3</span>
+<span class="gu">#### H4</span>
+<span class="gu">##### H5</span>
+</code></pre></div>
+
 <h1>H1</h1>
 <h2 style="margin-top: 1.5rem">H2</h2>
 <h3>H3</h3>
@@ -66,13 +271,14 @@
 <h5>H5</h5>
 
 <h2 id="formatting"><a class="toclink" href="#formatting">Formatting</a></h2>
-<pre><code class="language-markdown">* **Bold text**
-* *Italic text*
-* ~~Strikethrough~~
-* &lt;ins&gt;Underlined&lt;/ins&gt;
-* e &lt;sup&gt;i π&lt;/sup&gt; = -1
-* H&lt;sub&gt;2&lt;/sub&gt;O
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="k">*</span><span class="w"> </span><span class="gs">**Bold text**</span>
+<span class="k">*</span><span class="w"> </span><span class="ge">*Italic text*</span>
+<span class="k">*</span><span class="w"> </span><span class="gd">~~Strikethrough~~</span>
+<span class="k">*</span><span class="w"> </span>&lt;ins&gt;Underlined&lt;/ins&gt;
+<span class="k">*</span><span class="w"> </span>e &lt;sup&gt;i π&lt;/sup&gt; = -1
+<span class="k">*</span><span class="w"> </span>H&lt;sub&gt;2&lt;/sub&gt;O
+</code></pre></div>
+
 <p><span></span></p>
 <ul>
 <li><strong>Bold text</strong></li>
@@ -83,10 +289,11 @@
 <li>H<sub>2</sub>O</li>
 </ul>
 <h2 id="lists"><a class="toclink" href="#lists">Lists</a></h2>
-<pre><code class="language-markdown">- First item
-- Second item
-- Third item
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="k">-</span><span class="w"> </span>First item
+<span class="k">-</span><span class="w"> </span>Second item
+<span class="k">-</span><span class="w"> </span>Third item
+</code></pre></div>
+
 <p><span></span></p>
 <ul>
 <li>First item</li>
@@ -94,10 +301,11 @@
 <li>Third item</li>
 </ul>
 <h2 id="ordered-lists"><a class="toclink" href="#ordered-lists">Ordered Lists</a></h2>
-<pre><code class="language-markdown">1. First item
-2. Second item
-3. Third item
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="k">1.</span> First item
+<span class="k">2.</span> Second item
+<span class="k">3.</span> Third item
+</code></pre></div>
+
 <p><span></span></p>
 <ol>
 <li>First item</li>
@@ -105,24 +313,29 @@
 <li>Third item</li>
 </ol>
 <h2 id="links"><a class="toclink" href="#links">Links</a></h2>
-<pre><code class="language-markdown">See [wikipedia](https://www.wikipedia.org/).
-</code></pre>
+<div class="codehilite"><pre><span></span><code>See [<span class="nt">wikipedia</span>](<span class="na">https://www.wikipedia.org/</span>).
+</code></pre></div>
+
 <p>See <a href="https://www.wikipedia.org/">wikipedia</a>.</p>
 <h2 id="section-links"><a class="toclink" href="#section-links">Section links</a></h2>
-<pre><code class="language-markdown">See the [Links](#links) section.
-</code></pre>
+<div class="codehilite"><pre><span></span><code>See the [<span class="nt">Links</span>](<span class="na">#links</span>) section.
+</code></pre></div>
+
 <p>See the <a href="#links">Links</a> section.</p>
 <h2 id="relative-links"><a class="toclink" href="#relative-links">Relative Links</a></h2>
-<pre><code class="language-markdown">Back to the [Homepage](index.md).
-</code></pre>
+<div class="codehilite"><pre><span></span><code>Back to the [<span class="nt">Homepage</span>](<span class="na">index.md</span>).
+</code></pre></div>
+
 <p>Back to the <a href="../">Homepage</a>.</p>
 <h2 id="images"><a class="toclink" href="#images">Images</a></h2>
-<pre><code class="language-markdown">![coder cat](img/codercat.png)
-</code></pre>
+<div class="codehilite"><pre><span></span><code>![<span class="nt">coder cat</span>](<span class="na">img/codercat.png</span>)
+</code></pre></div>
+
 <p><img alt="coder cat" src="../img/codercat.png" /></p>
 <h2 id="inline-code"><a class="toclink" href="#inline-code">Inline Code</a></h2>
-<pre><code class="language-markdown">`&amp;mdash;`
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="sb">`&amp;mdash;`</span>
+</code></pre></div>
+
 <p><code>&amp;mdash;</code></p>
 <h2 id="code-block"><a class="toclink" href="#code-block">Code Block</a></h2>
 <pre><code class="language-markdown hljs">```json
@@ -134,23 +347,26 @@
 ```</code></pre>
 
 <p><span></span></p>
-<pre><code class="language-json">{
-  &quot;firstName&quot;: &quot;John&quot;,
-  &quot;lastName&quot;: &quot;Smith&quot;,
-  &quot;age&quot;: 25
-}
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"firstName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"lastName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Smith"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"age"</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span>
+<span class="p">}</span>
+</code></pre></div>
+
 <h2 id="horizontal-rule"><a class="toclink" href="#horizontal-rule">Horizontal Rule</a></h2>
-<pre><code class="language-markdown">---
-</code></pre>
+<div class="codehilite"><pre><span></span><code>---
+</code></pre></div>
+
 <hr />
 <p><br/></p>
 <h2 id="table"><a class="toclink" href="#table">Table</a></h2>
-<pre><code class="language-markdown">| Syntax    | Description |
+<div class="codehilite"><pre><span></span><code>| Syntax    | Description |
 | --------- | ----------- |
 | Header    | Title       |
 | Paragraph | Text        |
-</code></pre>
+</code></pre></div>
+
 <p><span></span></p>
 <table>
 <thead>
@@ -171,62 +387,71 @@
 </tbody>
 </table>
 <h2 id="footnotes"><a class="toclink" href="#footnotes">Footnotes</a></h2>
-<pre><code class="language-markdown">Here's a sentence with a footnote. [^1]
+<div class="codehilite"><pre><span></span><code>Here's a sentence with a footnote. [^1]
 
-[^1]: This is the footnote from earlier.
-</code></pre>
+[<span class="nl">^1</span>]: <span class="na">This is the footnote from earlier.</span>
+</code></pre></div>
+
 <p>Here's a sentence with a footnote. <sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup></p>
 <h2 id="blockquote"><a class="toclink" href="#blockquote">Blockquote</a></h2>
-<pre><code class="language-markdown">&gt; Rumors of my death have been greatly exaggerated.
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="k">&gt; </span><span class="ge">Rumors of my death have been greatly exaggerated.</span>
+</code></pre></div>
+
 <blockquote>
 <p>Rumors of my death have been greatly exaggerated.</p>
 </blockquote>
 <h2 id="alerts"><a class="toclink" href="#alerts">Alerts</a></h2>
-<pre><code class="language-markdown">&gt; [!NOTE]
-&gt; Useful information that users should know, even when skimming content.
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="k">&gt; </span><span class="ge">[!NOTE]</span>
+<span class="k">&gt; </span><span class="ge">Useful information that users should know, even when skimming content.</span>
+</code></pre></div>
+
 <blockquote>
 <p>[!NOTE]
 Useful information that users should know, even when skimming content.</p>
 </blockquote>
-<pre><code class="language-markdown">&gt; [!TIP]
-&gt; Helpful advice for doing things better or more easily.
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="k">&gt; </span><span class="ge">[!TIP]</span>
+<span class="k">&gt; </span><span class="ge">Helpful advice for doing things better or more easily.</span>
+</code></pre></div>
+
 <blockquote>
 <p>[!TIP]
 Helpful advice for doing things better or more easily.</p>
 </blockquote>
-<pre><code class="language-markdown">&gt; [!IMPORTANT]
-&gt; Key information users need to know to achieve their goal.
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="k">&gt; </span><span class="ge">[!IMPORTANT]</span>
+<span class="k">&gt; </span><span class="ge">Key information users need to know to achieve their goal.</span>
+</code></pre></div>
+
 <blockquote>
 <p>[!IMPORTANT]
 Key information users need to know to achieve their goal.</p>
 </blockquote>
-<pre><code class="language-markdown">&gt; [!WARNING]
-&gt; Urgent info that needs immediate user attention to avoid problems.
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="k">&gt; </span><span class="ge">[!WARNING]</span>
+<span class="k">&gt; </span><span class="ge">Urgent info that needs immediate user attention to avoid problems.</span>
+</code></pre></div>
+
 <blockquote>
 <p>[!WARNING]
 Urgent info that needs immediate user attention to avoid problems.</p>
 </blockquote>
-<pre><code class="language-markdown">&gt; [!CAUTION]
-&gt; Advises about risks or negative outcomes of certain actions.
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="k">&gt; </span><span class="ge">[!CAUTION]</span>
+<span class="k">&gt; </span><span class="ge">Advises about risks or negative outcomes of certain actions.</span>
+</code></pre></div>
+
 <blockquote>
 <p>[!CAUTION]
 Advises about risks or negative outcomes of certain actions.</p>
 </blockquote>
 <h2 id="emoji"><a class="toclink" href="#emoji">Emoji</a></h2>
-<pre><code class="language-markdown">:+1: This PR looks great :heart:
-</code></pre>
+<div class="codehilite"><pre><span></span><code>:+1: This PR looks great :heart:
+</code></pre></div>
+
 <p><span>👍🏼</span> This PR looks great <span>❤️</span></p>
 <h2 id="task-list"><a class="toclink" href="#task-list">Task List</a></h2>
-<pre><code class="language-markdown">- [x] Write the press release
-- [ ] Update the website
-- [ ] Contact the media
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="k">- [x]</span> Write the press release
+<span class="k">- [ ]</span> Update the website
+<span class="k">- [ ]</span> Contact the media
+</code></pre></div>
+
 <p><span></span></p>
 <ul>
 <li>[x] Write the press release</li>
@@ -241,16 +466,6 @@ Advises about risks or negative outcomes of certain actions.</p>
 </li>
 </ol>
 </div>
-            
-            <div class="pagination">
-                
-                <a class="previous" href="../">← Introduction</a>
-                
-                
-                <a class="next" href="../navigation/">Interlinking & Navigation →</a>
-                
-            </div>
-            
         </main>
     </body>
 </html>

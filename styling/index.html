@@ -2,38 +2,255 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Themes & Styling - MkDocs</title>
+        <title>...</title>
         <link rel="icon" href="data:image/svg+xml,&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 100 100&quot;&gt;&lt;text y=&quot;.9em&quot; font-size=&quot;90&quot;&gt;📘&lt;/text&gt;&lt;/svg&gt;">
-        <link rel="stylesheet" href="../css/highlightjs.min.css">
-        <link rel="stylesheet" href="../css/highlightjs-copy.min.css">
-        <link rel="stylesheet" href="../css/theme.css">
-        <script src="../js/highlightjs.min.js"></script>
-        <script src="../js/highlightjs-copy.min.js"></script>
-        <script src="../js/theme.js"></script>
+        <style>
+            /* Color scheme */
+
+:root {
+    --fg-color: #f0f6fc;
+    --muted-fg-color: #9198a1;
+    --neutral-color: #3d444d;
+    --bg-color: #151b23;
+
+    --link-color: #4493f8;
+    --code-bg-color: #0d1117;
+
+    --accent-note: #0969da;
+    --accent-tip: #1a7f37;
+    --accent-important:#8250df;
+    --accent-warning: #9a6700;
+    --accent-caution: #d1242f;
+}
+
+/* Basic reset */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-weight: 300;
+}
+
+/* Layout... */
+
+main {
+    margin-left: 20%;
+    width: 60%;
+    padding: 1rem;
+}
+
+@media (max-width: 1000px) {
+    main {
+        padding: 1.5rem 1rem;
+        width: 75%;
+        margin-left: 25%;
+    }
+}
+
+@media (max-width: 800px) {
+    main {
+        padding: 1.5rem 1rem;
+        width: 100%;
+        margin-left: 0;
+    }
+}
+
+/* Typography & spacing */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    line-height: 1.6;
+    color: var(--fg-color);
+    background-color: var(--bg-color);
+    font-family: Helvetica, sans-serif;
+}
+
+h1, h2, h3, h4, h5 {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
+}
+
+h1 {
+    border-bottom: 1px solid var(--neutral-color);
+}
+h2 {
+    border-bottom: 1px solid var(--neutral-color);
+}
+/* h3 { font-size: 1.25rem; }
+h4 { font-size: 1rem; } */
+
+p {
+    margin: 1rem 0;
+}
+
+strong {
+    font-weight: 600;
+}
+
+ul, ol {
+    padding-left: 2rem;
+}
+
+li {
+    margin: 0.5rem 0;
+}
+
+hr {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: none;
+    border-top: 4px solid;
+    color: var(--neutral-color);
+}
+
+blockquote {
+    border-left: 0.25rem solid var(--neutral-color);
+    padding: 0 1rem;
+    color: var(--muted-fg-color);
+}
+
+pre {
+    padding: 1rem;
+}
+
+img {
+    max-width: 100%
+}
+
+h1 a {
+    color: inherit;
+}
+
+h1 a:hover {
+    text-decoration: none;
+}
+
+a {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Tables */
+
+table {
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 6px 13px;
+    border: 1px solid var(--neutral-color);
+}
+
+/* Header anchor links */
+
+a.toclink {
+    color: inherit;
+    text-decoration: none;
+}
+
+a.toclink:hover::after {
+    content: "#";
+    margin: 0 0.8rem;
+    color: var(--neutral-color);
+}
+            pre { line-height: 125%; }
+td.linenos .normal { color: #6e7681; background-color: #0d1117; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #6e7681; background-color: #0d1117; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #e6edf3; background-color: #6e7681; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #e6edf3; background-color: #6e7681; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #6e7681 }
+.codehilite { background: #0d1117; color: #E6EDF3 }
+.codehilite .c { color: #8B949E; font-style: italic } /* Comment */
+.codehilite .err { color: #F85149 } /* Error */
+.codehilite .esc { color: #E6EDF3 } /* Escape */
+.codehilite .g { color: #E6EDF3 } /* Generic */
+.codehilite .k { color: #FF7B72 } /* Keyword */
+.codehilite .l { color: #A5D6FF } /* Literal */
+.codehilite .n { color: #E6EDF3 } /* Name */
+.codehilite .o { color: #FF7B72; font-weight: bold } /* Operator */
+.codehilite .x { color: #E6EDF3 } /* Other */
+.codehilite .p { color: #E6EDF3 } /* Punctuation */
+.codehilite .ch { color: #8B949E; font-style: italic } /* Comment.Hashbang */
+.codehilite .cm { color: #8B949E; font-style: italic } /* Comment.Multiline */
+.codehilite .cp { color: #8B949E; font-weight: bold; font-style: italic } /* Comment.Preproc */
+.codehilite .cpf { color: #8B949E; font-style: italic } /* Comment.PreprocFile */
+.codehilite .c1 { color: #8B949E; font-style: italic } /* Comment.Single */
+.codehilite .cs { color: #8B949E; font-weight: bold; font-style: italic } /* Comment.Special */
+.codehilite .gd { color: #FFA198; background-color: #490202 } /* Generic.Deleted */
+.codehilite .ge { color: #E6EDF3; font-style: italic } /* Generic.Emph */
+.codehilite .ges { color: #E6EDF3; font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.codehilite .gr { color: #FFA198 } /* Generic.Error */
+.codehilite .gh { color: #79C0FF; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #56D364; background-color: #0F5323 } /* Generic.Inserted */
+.codehilite .go { color: #8B949E } /* Generic.Output */
+.codehilite .gp { color: #8B949E } /* Generic.Prompt */
+.codehilite .gs { color: #E6EDF3; font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #79C0FF } /* Generic.Subheading */
+.codehilite .gt { color: #FF7B72 } /* Generic.Traceback */
+.codehilite .g-Underline { color: #E6EDF3; text-decoration: underline } /* Generic.Underline */
+.codehilite .kc { color: #79C0FF } /* Keyword.Constant */
+.codehilite .kd { color: #FF7B72 } /* Keyword.Declaration */
+.codehilite .kn { color: #FF7B72 } /* Keyword.Namespace */
+.codehilite .kp { color: #79C0FF } /* Keyword.Pseudo */
+.codehilite .kr { color: #FF7B72 } /* Keyword.Reserved */
+.codehilite .kt { color: #FF7B72 } /* Keyword.Type */
+.codehilite .ld { color: #79C0FF } /* Literal.Date */
+.codehilite .m { color: #A5D6FF } /* Literal.Number */
+.codehilite .s { color: #A5D6FF } /* Literal.String */
+.codehilite .na { color: #E6EDF3 } /* Name.Attribute */
+.codehilite .nb { color: #E6EDF3 } /* Name.Builtin */
+.codehilite .nc { color: #F0883E; font-weight: bold } /* Name.Class */
+.codehilite .no { color: #79C0FF; font-weight: bold } /* Name.Constant */
+.codehilite .nd { color: #D2A8FF; font-weight: bold } /* Name.Decorator */
+.codehilite .ni { color: #FFA657 } /* Name.Entity */
+.codehilite .ne { color: #F0883E; font-weight: bold } /* Name.Exception */
+.codehilite .nf { color: #D2A8FF; font-weight: bold } /* Name.Function */
+.codehilite .nl { color: #79C0FF; font-weight: bold } /* Name.Label */
+.codehilite .nn { color: #FF7B72 } /* Name.Namespace */
+.codehilite .nx { color: #E6EDF3 } /* Name.Other */
+.codehilite .py { color: #79C0FF } /* Name.Property */
+.codehilite .nt { color: #7EE787 } /* Name.Tag */
+.codehilite .nv { color: #79C0FF } /* Name.Variable */
+.codehilite .ow { color: #FF7B72; font-weight: bold } /* Operator.Word */
+.codehilite .pm { color: #E6EDF3 } /* Punctuation.Marker */
+.codehilite .w { color: #6E7681 } /* Text.Whitespace */
+.codehilite .mb { color: #A5D6FF } /* Literal.Number.Bin */
+.codehilite .mf { color: #A5D6FF } /* Literal.Number.Float */
+.codehilite .mh { color: #A5D6FF } /* Literal.Number.Hex */
+.codehilite .mi { color: #A5D6FF } /* Literal.Number.Integer */
+.codehilite .mo { color: #A5D6FF } /* Literal.Number.Oct */
+.codehilite .sa { color: #79C0FF } /* Literal.String.Affix */
+.codehilite .sb { color: #A5D6FF } /* Literal.String.Backtick */
+.codehilite .sc { color: #A5D6FF } /* Literal.String.Char */
+.codehilite .dl { color: #79C0FF } /* Literal.String.Delimiter */
+.codehilite .sd { color: #A5D6FF } /* Literal.String.Doc */
+.codehilite .s2 { color: #A5D6FF } /* Literal.String.Double */
+.codehilite .se { color: #79C0FF } /* Literal.String.Escape */
+.codehilite .sh { color: #79C0FF } /* Literal.String.Heredoc */
+.codehilite .si { color: #A5D6FF } /* Literal.String.Interpol */
+.codehilite .sx { color: #A5D6FF } /* Literal.String.Other */
+.codehilite .sr { color: #79C0FF } /* Literal.String.Regex */
+.codehilite .s1 { color: #A5D6FF } /* Literal.String.Single */
+.codehilite .ss { color: #A5D6FF } /* Literal.String.Symbol */
+.codehilite .bp { color: #E6EDF3 } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #D2A8FF; font-weight: bold } /* Name.Function.Magic */
+.codehilite .vc { color: #79C0FF } /* Name.Variable.Class */
+.codehilite .vg { color: #79C0FF } /* Name.Variable.Global */
+.codehilite .vi { color: #79C0FF } /* Name.Variable.Instance */
+.codehilite .vm { color: #79C0FF } /* Name.Variable.Magic */
+.codehilite .il { color: #A5D6FF } /* Literal.Number.Integer.Long */
+        </style>
     </head>
     <body>
-        <nav class="left">
-            <ul>
-<li><a href="../">Introduction</a></li>
-<li><a href="../writing/">Writing Markdown</a></li>
-<li><a href="../navigation/">Interlinking &amp; Navigation</a></li>
-<li><a class="active" href=".">Themes &amp; Styling</a></li>
-</ul>
-        </nav>
-        <nav class="right">
-            <div class="toc">
-<ul>
-<li><a href="#themes-styling">Themes &amp; Styling</a><ul>
-<li><a href="#templates">Templates</a></li>
-<li><a href="#pages">Pages</a></li>
-<li><a href="#statics">Statics</a></li>
-<li><a href="#themes">Themes</a></li>
-</ul>
-</li>
-</ul>
-</div>
-
-        </nav>
         <main>
             <h1 id="themes-styling"><a class="toclink" href="#themes-styling">Themes &amp; Styling</a></h1>
 <p>Styling is handled with HTML templating and regular web design.</p>
@@ -50,42 +267,43 @@
 <h2 id="templates"><a class="toclink" href="#templates">Templates</a></h2>
 <p>Anything in the <code>/templates/</code> directory is treated as a <a href="https://jinja.palletsprojects.com/en/stable/templates/">Jinja template</a>, and is used to render markdown pages. You can override templates locally and adapt them to make layout changes.</p>
 <p>The base template for rendering markdown pages is <strong><code>templates/base.html</code></strong>. </p>
-<pre><code class="language-html">&lt;html&gt;
-    &lt;head&gt;
-        &lt;meta charset=&quot;utf-8&quot;&gt;
-        &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
-        &lt;title&gt;{{ nav.current.title or page.title }}{{ &quot; - &quot; ~ config.context.title if config.context.title }}&lt;/title&gt;
-        &lt;link rel=&quot;icon&quot; href=&quot;data:image/svg+xml,&amp;lt;svg xmlns=&amp;quot;http://www.w3.org/2000/svg&amp;quot; viewBox=&amp;quot;0 0 100 100&amp;quot;&amp;gt;&amp;lt;text y=&amp;quot;.9em&amp;quot; font-size=&amp;quot;90&amp;quot;&amp;gt;{{ config.mkdocs.favicon or '📘' }}&amp;lt;/text&amp;gt;&amp;lt;/svg&amp;gt;&quot;&gt;
-        &lt;link rel=&quot;stylesheet&quot; href=&quot;{{ '/css/highlightjs.min.css' | url }}&quot;&gt;
-        &lt;link rel=&quot;stylesheet&quot; href=&quot;{{ '/css/highlightjs-copy.min.css' | url }}&quot;&gt;
-        &lt;link rel=&quot;stylesheet&quot; href=&quot;{{ '/css/theme.css' | url }}&quot;&gt;
-        &lt;script src=&quot;{{ '/js/highlightjs.min.js' | url }}&quot;&gt;&lt;/script&gt;
-        &lt;script src=&quot;{{ '/js/highlightjs-copy.min.js' | url }}&quot;&gt;&lt;/script&gt;
-        &lt;script src=&quot;{{ '/js/theme.js' | url }}&quot;&gt;&lt;/script&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-        &lt;nav class=&quot;left&quot;&gt;
+<div class="codehilite"><pre><span></span><code><span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">"utf-8"</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">"viewport"</span> <span class="na">content</span><span class="o">=</span><span class="s">"width=device-width, initial-scale=1.0"</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>{{ nav.current.title or page.title }}{{ " - " ~ config.context.title if config.context.title }}<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">"icon"</span> <span class="na">href</span><span class="o">=</span><span class="s">"data:image/svg+xml,&amp;lt;svg xmlns=&amp;quot;http://www.w3.org/2000/svg&amp;quot; viewBox=&amp;quot;0 0 100 100&amp;quot;&amp;gt;&amp;lt;text y=&amp;quot;.9em&amp;quot; font-size=&amp;quot;90&amp;quot;&amp;gt;{{ config.mkdocs.favicon or '📘' }}&amp;lt;/text&amp;gt;&amp;lt;/svg&amp;gt;"</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">"stylesheet"</span> <span class="na">href</span><span class="o">=</span><span class="s">"{{ '/css/highlightjs.min.css' | url }}"</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">"stylesheet"</span> <span class="na">href</span><span class="o">=</span><span class="s">"{{ '/css/highlightjs-copy.min.css' | url }}"</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">"stylesheet"</span> <span class="na">href</span><span class="o">=</span><span class="s">"{{ '/css/theme.css' | url }}"</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">"{{ '/js/highlightjs.min.js' | url }}"</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">"{{ '/js/highlightjs-copy.min.js' | url }}"</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">"{{ '/js/theme.js' | url }}"</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">nav</span> <span class="na">class</span><span class="o">=</span><span class="s">"left"</span><span class="p">&gt;</span>
             {{ nav.html }}
-        &lt;/nav&gt;
-        &lt;nav class=&quot;right&quot;&gt;
+        <span class="p">&lt;/</span><span class="nt">nav</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">nav</span> <span class="na">class</span><span class="o">=</span><span class="s">"right"</span><span class="p">&gt;</span>
             {{ page.toc }}
-        &lt;/nav&gt;
-        &lt;main&gt;
+        <span class="p">&lt;/</span><span class="nt">nav</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">main</span><span class="p">&gt;</span>
             {{ page.html }}
             {% if nav.previous or nav.next %}
-            &lt;div class=&quot;pagination&quot;&gt;
+            <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"pagination"</span><span class="p">&gt;</span>
                 {% if nav.previous %}
-                &lt;a class=&quot;previous&quot; href=&quot;{{ nav.previous.url }}&quot;&gt;← {{ nav.previous.title }}&lt;/a&gt;
+                <span class="p">&lt;</span><span class="nt">a</span> <span class="na">class</span><span class="o">=</span><span class="s">"previous"</span> <span class="na">href</span><span class="o">=</span><span class="s">"{{ nav.previous.url }}"</span><span class="p">&gt;</span>← {{ nav.previous.title }}<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
                 {% endif %}
                 {% if nav.next %}
-                &lt;a class=&quot;next&quot; href=&quot;{{ nav.next.url }}&quot;&gt;{{ nav.next.title }} →&lt;/a&gt;
+                <span class="p">&lt;</span><span class="nt">a</span> <span class="na">class</span><span class="o">=</span><span class="s">"next"</span> <span class="na">href</span><span class="o">=</span><span class="s">"{{ nav.next.url }}"</span><span class="p">&gt;</span>{{ nav.next.title }} →<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
                 {% endif %}
-            &lt;/div&gt;
+            <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
             {% endif %}
-        &lt;/main&gt;
-    &lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
+        <span class="p">&lt;/</span><span class="nt">main</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</code></pre></div>
+
 <p>The following template is included in <a href="https://github.com/encode/mkdocs/blob/main/src/mkdocs/theme/">the default theme</a>...</p>
 <ul>
 <li><code>templates/base.html</code>- The base template used for rendering markdown pages.</li>
@@ -181,53 +399,42 @@
 <p>This can include images, stylesheets, javascript, fonts, video and audio.</p>
 <p>The default theme includes the following static media...</p>
 <ul>
-<li><a href="../css/theme.css"><code>css/theme.css</code></a></li>
-<li><a href="../css/highlightjs.min.css"><code>css/highlightjs.min.css</code></a></li>
-<li><a href="../css/highlightjs-copy.min.css"><code>css/highlightjs-copy.min.css</code></a></li>
-<li><a href="../js/theme.js"><code>js/theme.js</code></a></li>
-<li><a href="../js/highlightjs.min.js"><code>js/highlightjs.min.js</code></a></li>
-<li><a href="../js/highlightjs-copy.min.js"><code>js/highlightjs-copy.min.js</code></a></li>
+<li><a href="css/theme.css"><code>css/theme.css</code></a></li>
+<li><a href="css/highlightjs.min.css"><code>css/highlightjs.min.css</code></a></li>
+<li><a href="css/highlightjs-copy.min.css"><code>css/highlightjs-copy.min.css</code></a></li>
+<li><a href="js/theme.js"><code>js/theme.js</code></a></li>
+<li><a href="js/highlightjs.min.js"><code>js/highlightjs.min.js</code></a></li>
+<li><a href="js/highlightjs-copy.min.js"><code>js/highlightjs-copy.min.js</code></a></li>
 </ul>
 <h2 id="themes"><a class="toclink" href="#themes">Themes</a></h2>
 <p>Themes can be packaged and distributed as part of a zip archive. The archive can the either be loaded remotely from a URL, or downloaded and included locally.</p>
 <p>Controlling how resources are loaded for the theme and documentation is handled with the <code>mkdocs.toml</code> config file.</p>
 <p><strong>Example configurations</strong></p>
 <p><em>The default theme supplied by the <code>mkdocs</code> package, and the documentation served directly from the project directory. This is the default configuration...</em></p>
-<pre><code class="language-toml">[mkdocs]
-resources = [
-    {package=&quot;mkdocs:theme&quot;},
-    {directory=&quot;.&quot;},
-]
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="k">[loaders]</span>
+<span class="n">theme</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"pkg://mkdocs/default"</span>
+<span class="n">docs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dir://"</span>
+</code></pre></div>
+
 <p><em>The default theme as a <code>.zip</code> URL, and a local <code>docs</code> directory...</em></p>
-<pre><code class="language-toml">[mkdocs]
-resources = [
-    {url=&quot;https://github.com/lovelydinosaur/mkdocs-theme/archive/refs/heads/main.zip&quot;},
-    {directory=&quot;docs&quot;},
-]
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="k">[loaders]</span>
+<span class="n">theme</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"https://github.com/lovelydinosaur/mkdocs-theme/archive/refs/heads/main.zip"</span>
+<span class="n">docs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dir://docs"</span>
+</code></pre></div>
+
 <p><em>A theme downloaded locally, and a <code>docs</code> directory...</em></p>
-<pre><code class="language-toml">[mkdocs]
-resources = [
-    {directory=&quot;theme&quot;},
-    {directory=&quot;docs&quot;},
-]
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="k">[loaders]</span>
+<span class="n">theme</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dir://theme"</span>
+<span class="n">docs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dir://docs"</span>
+</code></pre></div>
+
 <p><em>Both the theme and the documentation included in a single directory...</em></p>
-<pre><code class="language-toml">[mkdocs]
-resources = [
-    {directory=&quot;docs&quot;},
-]
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="k">[mkdocs]</span>
+<span class="n">theme</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dir://docs"</span>
+<span class="n">docs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dir://docs"</span>
+</code></pre></div>
+
 <p><br/></p>
-            
-            <div class="pagination">
-                
-                <a class="previous" href="../navigation/">← Interlinking & Navigation</a>
-                
-                
-            </div>
-            
         </main>
     </body>
 </html>

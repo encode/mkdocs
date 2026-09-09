@@ -2,8 +2,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Introduction - MkDocs</title>
-        <link rel="icon" href="data:image/svg+xml,&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 100 100&quot;&gt;&lt;text y=&quot;.9em&quot; font-size=&quot;90&quot;&gt;📘&lt;/text&gt;&lt;/svg&gt;">
+        <title>MkDocs</title>
+        <link rel="icon" href="data:image/svg+xml,&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 100 100&quot;&gt;&lt;text y=&quot;.9em&quot; font-size=&quot;90&quot;&gt;🦋&lt;/text&gt;&lt;/svg&gt;">
         <link rel="stylesheet" href="css/highlightjs.min.css">
         <link rel="stylesheet" href="css/highlightjs-copy.min.css">
         <link rel="stylesheet" href="css/theme.css">
@@ -12,23 +12,13 @@
         <script src="js/theme.js"></script>
     </head>
     <body>
-        <nav class="left">
-            <ul>
-<li><a class="active" href=".">Introduction</a></li>
-<li><a href="writing/">Writing Markdown</a></li>
-<li><a href="navigation/">Interlinking &amp; Navigation</a></li>
-<li><a href="styling/">Themes &amp; Styling</a></li>
-</ul>
-        </nav>
-        <nav class="right">
-            <div class="toc">
+        <nav class="toc">
+            <div class="">
 <ul>
 <li><a href="#mkdocs">MkDocs</a><ul>
-<li><a href="#installation">Installation</a></li>
 <li><a href="#getting-started">Getting started</a></li>
 <li><a href="#writing-your-docs">Writing your docs</a></li>
-<li><a href="#custom-styling">Custom styling</a></li>
-<li><a href="#compatibility">Compatibility</a></li>
+<li><a href="#styling-your-docs">Styling your docs</a></li>
 </ul>
 </li>
 </ul>
@@ -38,53 +28,44 @@
         <main>
             <h1 id="mkdocs"><a class="toclink" href="#mkdocs">MkDocs</a></h1>
 <p>MkDocs is a smart, simple, website design tool.</p>
-<h2 id="installation"><a class="toclink" href="#installation">Installation</a></h2>
-<p>Install the <code>mkdocs</code> command line tool...</p>
-<pre><code class="language-shell">$ pip install https://www.encode.io/mkdocs/mkdocs-2.0.dev0.tar.gz
+<p>Getting started is easy...</p>
+<pre><code class="language-shell">$ pip install mkdocs --pre
 </code></pre>
 <p><em>This will install the version 2.0 pre-release.</em></p>
 <h2 id="getting-started"><a class="toclink" href="#getting-started">Getting started</a></h2>
 <ol>
-<li>Create a <a href="example/"><code>README.md</code></a> page.</li>
+<li>Create a <code>docs/README.md</code> page.</li>
 <li>Run <code>mkdocs serve</code> to view your documentation in a browser.</li>
 <li>Run <code>mkdocs build</code> to build a static website ready to host.</li>
 </ol>
-<p><em>MkDocs supports <a href="writing/">GitHub Flavored Markdown</a> for page authoring.</em></p>
 <h2 id="writing-your-docs"><a class="toclink" href="#writing-your-docs">Writing your docs</a></h2>
 <ol>
 <li>Create additional markdown pages.</li>
-<li>Use <a href="navigation/#interlinking">markdown interlinking</a> between pages.</li>
-<li>Create a <code>mkdocs.toml</code> file to define <a href="navigation/#navigation">the site navigation</a> and other configuration.</li>
-<li>Move your markdown pages into a <code>docs</code> directory, and <a href="styling/#themes">configure the theme</a>.</li>
+<li>Use relative interlinking between pages.</li>
+<li>Include images and use relative interlinking from pages.</li>
 </ol>
-<p>An example <code>mkdocs.toml</code>...</p>
-<pre><code class="language-toml">[mkdocs]
-nav = [
-    {path: &quot;README.md&quot;, title: &quot;Introduction&quot;},
-    {path: &quot;CREDITS.md&quot;, title: &quot;Credits&quot;},
-]
-loaders = [
-    {package: &quot;mkdocs:theme&quot;},
-    {directory: &quot;docs&quot;},
-]
-</code></pre>
-<p><em>Use either <a href="navigation/#url-structure"><code>README.md</code> or <code>index.md</code></a> for the homepage.</em></p>
-<h2 id="custom-styling"><a class="toclink" href="#custom-styling">Custom styling</a></h2>
-<p>Styling adaptations can be kept simple, such as customising the colour scheme, or more comprehensive, such as creating an entirely new theme.</p>
+<p><em>MkDocs supports <a href="https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax">GitHub Flavored Markdown</a> for page authoring.</em></p>
+<h2 id="styling-your-docs"><a class="toclink" href="#styling-your-docs">Styling your docs</a></h2>
 <ol>
-<li>Modify <a href="styling/#templates">the HTML templating</a> to customise the layout.</li>
-<li>Override or add <a href="styling/#statics">CSS and JavaScript</a> static assets.</li>
+<li>Create a <code>templates/base.html</code> to customise the styling.</li>
+<li>Include css and javascript to serve static files.</li>
 </ol>
-<h2 id="compatibility"><a class="toclink" href="#compatibility">Compatibility</a></h2>
-<p><em>Work is planned to handle compatibility for both <a href="https://www.encode.io/mkdocs/">mkdocs 2.x</a> sites, and <a href="https://www.mkdocs.org/">mkdocs 1.x</a> sites.</em></p>
-            
-            <div class="pagination">
-                
-                
-                <a class="next" href="writing/">Writing Markdown →</a>
-                
-            </div>
-            
+<p><em>MkDocs uses <a href="https://jinja.palletsprojects.com/en/stable/templates/">Jinja templating</a> for HTML rendering.</em></p>
+<p>A starting point can be as simple as...</p>
+<pre><code class="language-html">&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+        &lt;title&gt;{{ page.toc.title }}&lt;/title&gt;
+        &lt;link rel=&quot;stylesheet&quot; href=&quot;{{ '/css/default.css' | url }}&quot;&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;main&gt;
+            {{ page.html }}
+        &lt;/main&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
         </main>
     </body>
 </html>

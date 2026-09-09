@@ -27,41 +27,19 @@
 
 /* Layout... */
 
-nav.left {
-    position: fixed;
-    width : 20%;
-    padding: 2rem 1rem 1rem 2rem;
-    height: 100%;
-    overflow-y: scroll;
-}
-
 main {
-    margin-left: 20%;
+    margin: 0 auto 0 auto;
     width: 60%;
     padding: 1rem;
-}
-
-nav.right {
-    position: fixed;
-    margin-left: 80%;
-    width : 20%;
-    padding: 2rem 2rem 1rem 1rem;
-    height: 100%;
-    overflow-y: scroll;
 }
 
 @media (max-width: 1000px) {
     main {
         padding: 1.5rem 1rem;
         width: 75%;
-        margin-left: 25%;
     }
-    nav.left {
-        padding: 2rem 1rem 1rem 2rem;
-        width: 25%;
-        position: fixed;
-    }
-    nav.right {
+
+    nav.toc {
         display: none;
     }
 }
@@ -70,12 +48,9 @@ nav.right {
     main {
         padding: 1.5rem 1rem;
         width: 100%;
-        margin-left: 0;
     }
-    nav.left {
-        display: none;
-    }
-    nav.right {
+
+    nav.toc {
         display: none;
     }
 }
@@ -91,20 +66,31 @@ body {
     color: var(--fg-color);
     background-color: var(--bg-color);
     font-family: Helvetica, sans-serif;
+    --border-color: linear-gradient(to right, #ffafc7 10%, #73d7ee 10% 20%, #613915 20% 30%, #000000 30% 40%, #e50000 40% 50%, #ff8d00 50% 60%, #ffee00 60% 70%, #028121 70% 80%, #004cff 80% 90%, #760088 90%);
+    border-top: 0.5em solid;
+    border-bottom: 0.5em solid;
+    border-image: var(--border-color) 1;
 }
 
-h1, h2 {
-    border-bottom: 1px solid var(--neutral-color);
-    padding-bottom: 0.3rem;
-}
 h1, h2, h3, h4, h5 {
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
     line-height: 1.3;
 }
 
-h1 { font-size: 2rem; }
-h2 { font-size: 1.5rem; margin-top: 3.5rem; }
+h1 {
+    font-family: courier;
+    text-align: center;
+    font-size: 3.5rem;
+    border-top: 1px solid var(--neutral-color);
+    border-bottom: 1px solid var(--neutral-color);
+}
+h2 {
+    border-bottom: 1px solid var(--neutral-color);
+    padding-bottom: 0.3rem;
+    font-size: 1.5rem;
+    margin-top: 3.5rem;
+}
 h3 { font-size: 1.25rem; }
 h4 { font-size: 1rem; }
 
@@ -117,12 +103,11 @@ strong {
 }
 
 ul, ol {
-    margin-bottom: 1.5rem;
     padding-left: 2rem;
 }
 
 li {
-    margin-bottom: 0.5rem;
+    margin: 0.5rem 0;
 }
 
 hr {
@@ -152,6 +137,14 @@ pre code {
     color: var(--code-bg-color);
 }
 
+h1 a {
+    color: inherit;
+}
+
+h1 a:hover {
+    text-decoration: none;
+}
+
 a {
     color: var(--link-color);
     text-decoration: none;
@@ -179,7 +172,7 @@ a.toclink {
     text-decoration: none;
 }
 
-a.toclink:hover::after {
+h2 a.toclink:hover::after {
     content: "#";
     margin: 0 0.8rem;
     color: var(--neutral-color);
@@ -203,41 +196,6 @@ a.toclink:hover::after {
 .admonition.warning   .admonition-title { color: var(--accent-warning); }
 .admonition.caution   .admonition-title { color: var(--accent-caution); }
 
-/* Navigation styling */
-
-nav ul {
-    padding: 0;
-    margin: 0;
-}
-
-nav li {
-    padding: 0;
-    margin: 0.5rem 0;
-    display: block;
-}
-
-nav li a {
-    color: var(--fg-color);
-}
-
-nav li a.active {
-    color: var(--link-color);
-}
-
-nav li a:hover {
-    color: var(--link-color);
-    text-decoration: none;
-}
-
-nav.right li a {
-    color: var(--muted-fg-color);
-}
-
-nav.right li a:hover {
-    color: var(--fg-color);
-    text-decoration: none;
-}
-
 /* Pagination styling */
 
 div.pagination {
@@ -253,5 +211,47 @@ div.pagination a.previous {
 
 div.pagination a.next {
     float: right;
+    text-decoration: none;
+}
+
+/* Table of contents styling */
+
+nav.toc {
+    position: fixed;
+    margin-left: 80%;
+    width : 20%;
+    padding: 2rem;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+/* Navigation styling */
+
+nav.toc ul {
+    padding: 0;
+    margin: 0;
+}
+
+nav.toc li {
+    padding: 0;
+    margin: 0.5rem 0;
+    display: block;
+}
+
+nav.toc li a.active {
+    color: var(--link-color);
+}
+
+nav.toc li a:hover {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+nav.toc li a {
+    color: var(--muted-fg-color);
+}
+
+nav.toc li a:hover {
+    color: var(--fg-color);
     text-decoration: none;
 }
