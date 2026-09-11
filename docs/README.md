@@ -2,13 +2,15 @@
 
 MkDocs is a smart, simple, website design tool.
 
-Getting started is easy...
+## Installation
+
+To install MkDocs, run the following command from the command line:
 
 ```shell
-$ pip install mkdocs --pre
+pip install mkdocs --pre
 ```
 
-*This will install the version 2.0 pre-release.*
+This will install the version 2.0 pre-release.
 
 ## Getting started
 
