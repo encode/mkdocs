@@ -1,0 +1,3 @@
+<ul>
+    {% for item in nav %}<li><a href="{{ item.page.url | url }}"{% if item.page.url == page.url %} class="active"{% endif %}>{{ item.title }}</a></li>{% endfor %}
+</ul>
