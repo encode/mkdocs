@@ -5,6 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "mkdocs"
 description = "HTTP, for Python."
+readme = "docs/README.md"
 requires-python = ">=3.10"
 authors = [
     { name = "Kim Christie", email = "noreply@lovelydinosaur.com" },
