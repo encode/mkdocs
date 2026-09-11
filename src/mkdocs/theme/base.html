@@ -43,18 +43,32 @@ main {
 
 @media (max-width: 1000px) {
     main {
+        margin-left: 20%;
         width: 75%;
     }
 
     nav.toc {
         display: none;
     }
+
+    nav.site {
+        width: 25%;
+    }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 750px) {
     main {
+        margin-left: 0;
         width: 100%;
         padding: 1rem 1.5rem;
+    }
+
+    nav.toc {
+        display: none;
+    }
+
+    nav.site {
+        display: none;
     }
 }
 
@@ -168,6 +182,14 @@ a.toclink:hover::after {
 
 /* Table of contents styling */
 
+nav.site {
+    position: fixed;
+    width : 20%;
+    padding: 2rem;
+    height: 100%;
+    overflow-y: scroll;
+}
+
 nav.toc {
     position: fixed;
     margin-left: 80%;
@@ -178,6 +200,35 @@ nav.toc {
 }
 
 /* Navigation styling */
+
+nav.site ul {
+    padding: 0;
+    margin: 0;
+}
+
+nav.site li {
+    padding: 0;
+    margin: 0.5rem 0;
+    display: block;
+}
+
+nav.site li a.active {
+    color: var(--link-color);
+}
+
+nav.site li a:hover {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+nav.site li a {
+    color: var(--muted-fg-color);
+}
+
+nav.site li a:hover {
+    color: var(--fg-color);
+    text-decoration: none;
+}
 
 nav.toc ul {
     padding: 0;
@@ -210,6 +261,11 @@ nav.toc li a:hover {
         </style>
     </head>
     <body>
+        {% if nav %}
+        <nav class="site">
+            {{ nav.html }}
+        </nav>
+        {% endif %}
         {% if page.toc %}
         <nav class="toc">
             {{ page.toc.html }}

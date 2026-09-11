@@ -99,6 +99,26 @@ class TableOfContents:
         return bool(self._items)
 
 
+class NavItem:
+    def __init__(self, title: str, page: Page):
+        self.title = title
+        self.page = page
+
+
+class Navigation:
+    def __init__(self, nav_items):
+        self._items = nav_items
+
+    def __iter__(self):
+        return iter(self._items)
+
+    @property
+    def html(self):
+        page = get_current_page()
+        t = jinja2.Template("""<ul>{% for item in nav %}<li><a href="{{ item.page.url }}"  {% if item.page == page %}class="active"{% endif %}>{{ item.title }}</a></li>{% endfor %}</ul>""")
+        return t.render({"nav": self, "page": page})
+
+
 class PageContext:
     def __init__(self, page, text, html, toc):
         self.path = page.path
@@ -117,6 +137,7 @@ class PageContext:
 class MkDocs:
     def __init__(self, input_dir):
         self.site = self.load_site(input_dir)
+        self.nav = self.load_nav({}, self.site)
         self.env = self.init_env(input_dir)
         self.md = self.init_md()
         self.base = self.env.get_template('base.html')
@@ -145,6 +166,29 @@ class MkDocs:
         pages = sorted(pages, key=lambda x: x.url)
         statics = sorted(statics, key=lambda x: x.url)
         return Site(pages, statics)
+
+    def load_nav(self, config, site):
+        if not config:
+            config = {"nav": [
+                {"title": page.path.stem, "path": str(page.path)}
+                for page in site.pages
+            ]}
+
+        nav_config = config.get('nav', [])
+        nav_config = nav_config if isinstance(nav_config, list) else []
+        nav_items = []
+        for item in nav_config:
+            if not isinstance(item, dict):
+                continue
+            path = item.get('path', '')
+            title = item.get('title', '')
+            if not path:
+                continue
+            if path:
+                page = site.lookup_by_path(path)
+            nav_item = NavItem(title, page)
+            nav_items.append(nav_item)
+        return Navigation(nav_items)
 
     def init_env(self, input_dir) -> jinja2.Environment:
         @jinja2.pass_context
@@ -191,6 +235,8 @@ class MkDocs:
             _current_page.reset(token_page)
             _site.reset(token_site)
 
+    # Commands...
+
     def build(self, input, output):
         input_dir = pathlib.Path(input)
         output_dir = pathlib.Path(output)
@@ -206,7 +252,7 @@ class MkDocs:
                 html = self.md.reset().convert(text)
                 toc = TableOfContents(self.md)
                 page_ctx = PageContext(page=page, text=text, html=html, toc=toc)
-                output = self.base.render(page=page_ctx)
+                output = self.base.render(page=page_ctx, nav=self.nav)
 
             output_path.parent.mkdir(parents=True, exist_ok=True)
             output_path.write_text(output)
@@ -239,7 +285,7 @@ class MkDocs:
                     html = self.md.reset().convert(text)
                     toc = TableOfContents(self.md)
                     page_ctx = PageContext(page=resource, text=text, html=html, toc=toc)
-                    output = self.base.render(page=page_ctx)
+                    output = self.base.render(page=page_ctx, nav=self.nav)
                 return httpx.Response(200, content=httpx.HTML(output))
             elif isinstance(resource, Static):
                 input_path = input_dir.joinpath(resource.path)
@@ -249,6 +295,8 @@ class MkDocs:
         server = httpx.Server(app)
         server.serve()
 
+
+# Command line client...
 
 @click.group()
 def cli():
