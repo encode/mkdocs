@@ -40,9 +40,7 @@ class URLProcessor(markdown.treeprocessors.Treeprocessor):
 
                     url_from = page.url
                     url_to = target.url
-                    rewrite = posixpath.relpath(url_to, url_from)
-                    if url_to.endswith('/') and rewrite != '.':
-                        rewrite += '/'
+                    rewrite = mkdocs.link_to(url_from, url_to)
                     if url.query:
                         rewrite += f'?{url.query}'
                     if url.fragment:
