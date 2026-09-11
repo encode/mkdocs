@@ -263,7 +263,7 @@ nav.toc li a:hover {
     <body>
         {% if nav %}
         <nav class="site">
-            {{ nav.html }}
+            {% include "navigation.html" %}
         </nav>
         {% endif %}
         {% if page.toc %}
