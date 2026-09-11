@@ -1,0 +1,257 @@
+/* Color scheme */
+
+:root {
+    --fg-color: #f0f6fc;
+    --muted-fg-color: #9198a1;
+    --neutral-color: #3d444d;
+    --bg-color: #151b23;
+
+    --link-color: #4493f8;
+    --code-bg-color: #0d1117;
+
+    --accent-note: #0969da;
+    --accent-tip: #1a7f37;
+    --accent-important:#8250df;
+    --accent-warning: #9a6700;
+    --accent-caution: #d1242f;
+}
+
+/* Basic reset */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-weight: 300;
+}
+
+/* Layout... */
+
+main {
+    margin: 0 auto 0 auto;
+    width: 60%;
+    padding: 1rem;
+}
+
+@media (max-width: 1000px) {
+    main {
+        padding: 1.5rem 1rem;
+        width: 75%;
+    }
+
+    nav.toc {
+        display: none;
+    }
+}
+
+@media (max-width: 800px) {
+    main {
+        padding: 1.5rem 1rem;
+        width: 100%;
+    }
+
+    nav.toc {
+        display: none;
+    }
+}
+
+/* Typography & spacing */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    line-height: 1.6;
+    color: var(--fg-color);
+    background-color: var(--bg-color);
+    font-family: Helvetica, sans-serif;
+    --border-color: linear-gradient(to right, #ffafc7 10%, #73d7ee 10% 20%, #613915 20% 30%, #000000 30% 40%, #e50000 40% 50%, #ff8d00 50% 60%, #ffee00 60% 70%, #028121 70% 80%, #004cff 80% 90%, #760088 90%);
+    border-top: 0.5em solid;
+    border-bottom: 0.5em solid;
+    border-image: var(--border-color) 1;
+}
+
+h1, h2, h3, h4, h5 {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
+}
+
+h1 {
+    font-family: courier;
+    text-align: center;
+    font-size: 3.5rem;
+    border-top: 1px solid var(--neutral-color);
+    border-bottom: 1px solid var(--neutral-color);
+}
+h2 {
+    border-bottom: 1px solid var(--neutral-color);
+    padding-bottom: 0.3rem;
+    font-size: 1.5rem;
+    margin-top: 3.5rem;
+}
+h3 { font-size: 1.25rem; }
+h4 { font-size: 1rem; }
+
+p {
+    margin: 1rem 0;
+}
+
+strong {
+    font-weight: 600;
+}
+
+ul, ol {
+    padding-left: 2rem;
+}
+
+li {
+    margin: 0.5rem 0;
+}
+
+hr {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: none;
+    border-top: 4px solid;
+    color: var(--neutral-color);
+}
+
+blockquote {
+    border-left: 0.25rem solid var(--neutral-color);
+    padding: 0 1rem;
+    color: var(--muted-fg-color);
+}
+
+pre {
+    background: var(--code-bg-color);
+}
+
+code {
+    background: var(--code-bg-color);
+    padding: 5px;
+}
+
+pre code {
+    color: var(--code-bg-color);
+}
+
+h1 a {
+    color: inherit;
+}
+
+h1 a:hover {
+    text-decoration: none;
+}
+
+a {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Tables */
+
+table {
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 6px 13px;
+    border: 1px solid var(--neutral-color);
+}
+
+/* Header anchor links */
+
+a.toclink {
+    color: inherit;
+    text-decoration: none;
+}
+
+h2 a.toclink:hover::after {
+    content: "#";
+    margin: 0 0.8rem;
+    color: var(--neutral-color);
+}
+
+/* Alerts */
+
+.admonition           { border-left: 5px solid; padding-left: 20px;}
+
+.admonition.note      { border-left-color: var(--accent-note); }
+.admonition.tip       { border-left-color: var(--accent-tip); }
+.admonition.important { border-left-color: var(--accent-important); }
+.admonition.warning   { border-left-color: var(--accent-warning); }
+.admonition.caution   { border-left-color: var(--accent-caution); }
+
+.admonition           .admonition-title { font-weight: 600; margin: 0 0 .5em; }
+
+.admonition.note      .admonition-title { color: var(--accent-note); }
+.admonition.tip       .admonition-title { color: var(--accent-tip); }
+.admonition.important .admonition-title { color: var(--accent-important); }
+.admonition.warning   .admonition-title { color: var(--accent-warning); }
+.admonition.caution   .admonition-title { color: var(--accent-caution); }
+
+/* Pagination styling */
+
+div.pagination {
+    height: 1.5rem;
+    border-top: 3px solid var(--neutral-color);
+    padding: 1rem 0;
+}
+
+div.pagination a.previous {
+    float: left;
+    text-decoration: none;
+}
+
+div.pagination a.next {
+    float: right;
+    text-decoration: none;
+}
+
+/* Table of contents styling */
+
+nav.toc {
+    position: fixed;
+    margin-left: 80%;
+    width : 20%;
+    padding: 2rem;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+/* Navigation styling */
+
+nav.toc ul {
+    padding: 0;
+    margin: 0;
+}
+
+nav.toc li {
+    padding: 0;
+    margin: 0.5rem 0;
+    display: block;
+}
+
+nav.toc li a.active {
+    color: var(--link-color);
+}
+
+nav.toc li a:hover {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+nav.toc li a {
+    color: var(--muted-fg-color);
+}
+
+nav.toc li a:hover {
+    color: var(--fg-color);
+    text-decoration: none;
+}
