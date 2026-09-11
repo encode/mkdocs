@@ -37,6 +37,18 @@ def get_site():
     return ctx
 
 
+def link_to(path_from, path_to):
+    if path_from == path_to:
+        return '.'
+    p0 = path_from.split('/')
+    p1 = path_to.split('/')
+    for idx, pair in enumerate(zip(p0, p1)):
+        if pair[0] != pair[1]:
+            break
+    p = ['..' for i in p0[idx+1:]] + p1[idx:]
+    return '/'.join(p)
+
+
 class Page:
     def __init__(self, path):
         self.path = path
@@ -194,8 +206,7 @@ class MkDocs:
         @jinja2.pass_context
         def url(ctx, url_to):
             url_from = ctx['page'].url
-            url_rel = posixpath.relpath(url_to, url_from)  # This isn't correct
-            return url_rel
+            return link_to(url_from, url_to)
 
         dir = pathlib.Path(input_dir)
         loader = jinja2.ChoiceLoader([
