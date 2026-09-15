@@ -1,3 +1,9 @@
+## 2.0.dev6
+
+**RelativeURLs Bugfix**
+
+Bugfix for relative URLs. This was working correctly within the `mkdocs` project serving it's own documentation, so the breakage wasn't immediately obvious. [#56](https://github.com/encode/mkdocs/pull/56)
+
 ## 2.0.dev5
 
 **Navigation Support Bugfix**
