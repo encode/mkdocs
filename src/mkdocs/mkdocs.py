@@ -279,6 +279,8 @@ class MkDocs:
                 html = self.md.reset().convert(text)
                 toc = TableOfContents(self.md)
                 page_ctx = PageContext(page=page, text=text, html=html, toc=toc)
+                # Really I think we want this to be `render(page=..., site=...)`
+                # That's then neaty enough constrained as a context for users to work against.`
                 output = self.base.render(page=page_ctx, nav=self.nav)
 
             output_path.parent.mkdir(parents=True, exist_ok=True)
