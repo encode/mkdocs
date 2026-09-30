@@ -1,0 +1,66 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Requirements</title>
+        <link rel="icon" href="data:image/svg+xml,&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 100 100&quot;&gt;&lt;text y=&quot;.9em&quot; font-size=&quot;90&quot;&gt;🦋&lt;/text&gt;&lt;/svg&gt;">
+        <link rel="stylesheet" href="../css/highlightjs.min.css">
+        <link rel="stylesheet" href="../css/highlightjs-copy.min.css">
+        <link rel="stylesheet" href="../css/theme.css">
+        <script src="../js/highlightjs.min.js"></script>
+        <script src="../js/highlightjs-copy.min.js"></script>
+        <script src="../js/theme.js"></script>
+    </head>
+    <body>
+        <nav class="site">
+            <ul>
+    <li><a href="../">README</a></li><li><a href="../changelog/">CHANGELOG</a></li><li><a href="." class="active">INSTALLATION</a></li><li><a href="../license/">LICENSE</a></li>
+</ul>
+        </nav>
+        <nav class="toc">
+            <div class="">
+<ul>
+<li><a href="#requirements">Requirements</a><ul>
+<li><a href="#installing-uv">Installing uv</a></li>
+</ul>
+</li>
+<li><a href="#installing-mkdocs">Installing MkDocs</a></li>
+</ul>
+</div>
+
+        </nav>
+        <main>
+            <h2 id="requirements"><a class="toclink" href="#requirements">Requirements</a></h2>
+<p>This guide uses uv, a fast Python package and project manager, to install and manage MkDocs and its dependencies. MkDocs 2.0's pre-release currently requires Python 3.10 or later — uv can fetch a suitable Python version for you automatically, so you don't need one already on your system.</p>
+<p>You can check if you already have uv installed from the command line:</p>
+<pre><code class="language-shell">uv --version
+</code></pre>
+<p>If uv is installed, this prints a version number (something like <code>uv 0.12.13 ...</code>). If instead you see something like <code>command not found: uv</code>, follow the steps below to install it.</p>
+<h3 id="installing-uv"><a class="toclink" href="#installing-uv">Installing uv</a></h3>
+<p>Install uv using the standalone installer:</p>
+<pre><code class="language-shell">curl -LsSf https://astral.sh/uv/install.sh | sh
+</code></pre>
+<p>If <code>uv</code> isn't recognized as a command right after installing, load it into your current shell session:</p>
+<pre><code class="language-shell">source $HOME/.local/bin/env
+</code></pre>
+<h2 id="installing-mkdocs"><a class="toclink" href="#installing-mkdocs">Installing MkDocs</a></h2>
+<p>Install the mkdocs package using uv, allowing pre-release versions:</p>
+<pre><code class="language-shell">uv tool install mkdocs --prerelease allow
+</code></pre>
+<p>Note: this is <em>not</em> the same as pip's <code>--pre</code> flag — uv doesn't recognize <code>--pre</code> as a prerelease toggle at all, and will silently install the latest stable release instead, with no warning.</p>
+<p>Verify what actually got installed:</p>
+<pre><code class="language-shell">uv tool list
+</code></pre>
+<p>This should show <code>mkdocs</code> at a <code>2.0.dev</code> version. If it shows an older <code>1.x</code> version instead, it's because uv didn't have a Python 3.10+ interpreter available to use for it. Check what uv has:</p>
+<pre><code class="language-shell">uv python list
+</code></pre>
+<p>If nothing 3.10 or newer shows as already installed (rather than just "download available"), fetch one (any version 3.10 or later — 3.12 is used here as the example):</p>
+<pre><code class="language-shell">uv python install 3.12
+</code></pre>
+<p>Then install again, specifying that interpreter directly:</p>
+<pre><code class="language-shell">uv tool install mkdocs --prerelease allow --python 3.12
+</code></pre>
+<p>Run <code>uv tool list</code> again to confirm.</p>
+        </main>
+    </body>
+</html>
