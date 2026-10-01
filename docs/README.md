@@ -10,7 +10,7 @@ To install MkDocs, run the following command from the command line:
 pip install mkdocs --pre
 ```
 
-This will install the version 2.0 pre-release.
+This will install the version 2.0 pre-release. For full installation steps, including using uv and troubleshooting common issues, see the [Installation Guide](INSTALLATION.md).
 
 ## Getting started
 
