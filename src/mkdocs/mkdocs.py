@@ -70,16 +70,25 @@ class Static:
         self.url = str(url).removesuffix('index.html')
 
 
+class Template:
+    def __init__(self, path):
+        self.path = path
+
+
 class Site:
-    def __init__(self, pages, statics):
+    def __init__(self, pages, statics, templates):
         self._pages = pages
         self._statics = statics
+        self._templates = templates
 
         self._paths = {
             str(resource.path): resource for resource in pages + statics
         }
         self._urls = {
             str(resource.url): resource for resource in pages + statics
+        }
+        self._templates = {
+            str(template.path): template for template in templates
         }
 
     def lookup_by_path(self, path) -> Page | Static | None:
@@ -95,6 +104,10 @@ class Site:
     @property
     def statics(self) -> list[Static]:
         return list(self._statics)
+
+    @property
+    def templates(self) -> list[Template]:
+        return list(self._templates)
 
     def __len__(self) -> int:
         return len(self.pages) + len(self.statics)
@@ -163,10 +176,12 @@ class MkDocs:
 
         pages = []
         statics = []
+        templates = []
 
         for path in paths:
             if path.parts[0] == "templates":
-                pass
+                template = Template(path)
+                templates.append(template)
             elif path.suffix == ".md":
                 page = Page(path)
                 pages.append(page)
@@ -176,7 +191,8 @@ class MkDocs:
 
         pages = sorted(pages, key=lambda x: x.url)
         statics = sorted(statics, key=lambda x: x.url)
-        return Site(pages, statics)
+        templates = sorted(templates, key=lambda x: x.path)
+        return Site(pages, statics, templates)
 
     def load_nav(self, config, site):
         if not config:
@@ -268,6 +284,8 @@ class MkDocs:
                 html = self.md.reset().convert(text)
                 toc = TableOfContents(self.md)
                 page_ctx = PageContext(page=page, text=text, html=html, toc=toc)
+                # Really I think we want this to be `render(page=..., site=...)`
+                # That's then neaty enough constrained as a context for users to work against.`
                 output = self.base.render(page=page_ctx, nav=self.nav)
 
             output_path.parent.mkdir(parents=True, exist_ok=True)
