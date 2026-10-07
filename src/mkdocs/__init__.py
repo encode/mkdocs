@@ -1,5 +1,5 @@
 from .__version__ import __title__, __version__
-from .mkdocs import get_current_page, get_site, link_to, Page, Static, Site, MkDocs, cli
+from .mkdocs import get_current_page, get_site, link_to, Page, Static, Site, MkDocs, mkdocs
 
 
 __all__ = [
@@ -12,5 +12,5 @@ __all__ = [
     'Static',
     'Site',
     'MkDocs',
-    'cli',
+    'mkdocs',
 ]
