@@ -310,12 +310,12 @@ class MkDocs:
 # Command line client...
 
 @click.group()
-def cli():
+def mkdocs():
     if pathlib.Path('mkdocs.yml').exists():
         raise Exception('Found mkdocs.yml config, but mkdocs 2.0 pre-release is installed')
 
 
-@cli.command()
+@mkdocs.command()
 @click.option('--dir', default='docs', help="Default 'docs'.", type=click.Path(exists=True, file_okay=False, dir_okay=True))
 @click.option('--output', default='site', help="Default 'site'.", type=click.Path(file_okay=False, dir_okay=True))
 def build(dir, output):
@@ -323,7 +323,7 @@ def build(dir, output):
     m.build(dir, output)
 
 
-@cli.command()
+@mkdocs.command()
 @click.option('--dir', default='docs', help="Default 'docs'.", type=click.Path(exists=True, file_okay=False, dir_okay=True))
 def serve(dir):
     m = MkDocs(dir)
