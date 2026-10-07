@@ -1,8 +1,7 @@
 import markdown
 import mkdocs
 import os
-import posixpath
-import httpx
+import hip
 
 
 class URLProcessor(markdown.treeprocessors.Treeprocessor):
@@ -26,7 +25,7 @@ class URLProcessor(markdown.treeprocessors.Treeprocessor):
 
             if link:
                 el.set(key, link)
-                url = httpx.URL(link)
+                url = hip.URL(link)
                 # We want to rewrite relative links... '/page'
                 # We don't want to rewrite external links. 'https://elsewhere.com/here'
                 # We don't want to rewrite anchor links. '#section'

@@ -251,9 +251,15 @@ class MkDocs:
         input_dir = pathlib.Path(input)
         output_dir = pathlib.Path(output)
 
-        print(DARK_GRAY + "Collected %d resources" % len(self.site) + RESET)
+        click.echo(
+            click.style("Collected %d resources" % len(self.site), fg='bright_black')
+        )
         for page in self.site.pages:
-            print(GREEN + " + " + RESET + BOLD + str(page.path) + RESET + DARK_GRAY + " [markdown]" + RESET)
+            click.echo(
+                click.style(" + ", fg='green') +
+                click.style(str(page.path), bold=True) +
+                click.style(" [markdown]", fg='bright_black')
+            )
             input_path = input_dir.joinpath(page.path)
             output_path = output_dir.joinpath(page.build_path)
 
@@ -268,7 +274,11 @@ class MkDocs:
             output_path.write_text(output)
 
         for static in self.site.statics:
-            print(GREEN + " + " + RESET + BOLD + str(static.path) + RESET + DARK_GRAY + " [static]" + RESET)
+            click.echo(
+                click.style(" + ", fg='green') +
+                click.style(str(static.path), bold=True) +
+                click.style(" [static]", fg='bright_black')
+            )
             input_path = input_dir.joinpath(static.path)
             output_path = output_dir.joinpath(static.path)
 
@@ -278,12 +288,22 @@ class MkDocs:
     def serve(self, input):
         input_dir = pathlib.Path(input)
 
-        print(DARK_GRAY + "Serving %d resources" % len(self.site) + RESET)
+        click.echo(
+            click.style("Serving %d resources" % len(self.site), fg='bright_black')
+        )
         for page in self.site.pages:
-            print(GREEN + " + " + RESET + BOLD + str(page.url) + RESET + DARK_GRAY + " [markdown]" + RESET)
+            click.echo(
+                click.style(" + ", fg='green') +
+                click.style(str(page.url), bold=True) +
+                click.style(" [markdown]", fg='bright_black')
+            )
         for static in self.site.statics:
-            print(GREEN + " + " + RESET + BOLD + str(static.url) + RESET + DARK_GRAY + " [static]" + RESET)
-        print()
+            click.echo(
+                click.style(" + ", fg='green') +
+                click.style(str(static.url), bold=True) +
+                click.style(" [static]", fg='bright_black')
+            )
+        click.echo()
 
         def app(request):
             resource = self.site.lookup_by_url(request.url.path)
