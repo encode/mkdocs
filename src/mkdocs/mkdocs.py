@@ -4,9 +4,8 @@ import contextvars
 import jinja2
 import markdown
 import pathlib
-import posixpath
 import shutil
-import httpx
+import hip
 
 
 RED = '\033[31m'
@@ -297,13 +296,13 @@ class MkDocs:
                     toc = TableOfContents(self.md)
                     page_ctx = PageContext(page=resource, text=text, html=html, toc=toc)
                     output = self.base.render(page=page_ctx, nav=self.nav)
-                return httpx.Response(200, content=httpx.HTML(output))
+                return hip.Response(200, content=hip.HTML(output))
             elif isinstance(resource, Static):
                 input_path = input_dir.joinpath(resource.path)
-                return httpx.Response(200, content=httpx.File(input_path))
-            return httpx.Response(404, content=httpx.Text("Not Found"))
+                return hip.Response(200, content=hip.File(input_path))
+            return hip.Response(404, content=hip.Text("Not Found"))
 
-        server = httpx.Server(app)
+        server = hip.Server(app)
         server.serve()
 
 
