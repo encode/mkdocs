@@ -18,6 +18,8 @@ This will install the version 2.0 pre-release. For full installation steps, incl
 2. Run `mkdocs serve` to view your documentation in a browser.
 3. Run `mkdocs build` to build a static website ready to host.
 
+For a full list of commands and options, see the [CLI Reference](CLI.md).
+
 ## Writing your docs
 
 1. Create additional markdown pages.
